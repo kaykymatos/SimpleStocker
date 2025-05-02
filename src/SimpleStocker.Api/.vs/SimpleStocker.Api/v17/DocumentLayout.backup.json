@@ -1,0 +1,372 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\clientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\clientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\saleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\saleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\salerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\salerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\clientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\clientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\isalerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\isalerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\iclientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\iclientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\isaleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\isaleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\iclientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\iclientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\services\\ibaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:services\\ibaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\models\\viewmodels\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:models\\viewmodels\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|c:\\ws\\repos\\dotnet\\simplestocker\\src\\simplestocker.api\\repositories\\ibaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{539E3455-8659-4474-BA35-B709CAB0F428}|SimpleStocker.Api.csproj|solutionrelative:repositories\\ibaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAABUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:52:04.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SaleRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\SaleRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\SaleRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\SaleRepository.cs",
+              "RelativeToolTip": "Repositories\\SaleRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:47:13.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ProductRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ProductRepository.cs",
+              "RelativeToolTip": "Repositories\\ProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:47:01.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClientService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ClientService.cs",
+              "RelativeDocumentMoniker": "Services\\ClientService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ClientService.cs",
+              "RelativeToolTip": "Services\\ClientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:43:55.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\CategoryService.cs",
+              "RelativeDocumentMoniker": "Services\\CategoryService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\CategoryService.cs",
+              "RelativeToolTip": "Services\\CategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:43:43.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "Services\\ProductService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ProductService.cs",
+              "RelativeToolTip": "Services\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:44:05.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SaleService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\SaleService.cs",
+              "RelativeDocumentMoniker": "Services\\SaleService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\SaleService.cs",
+              "RelativeToolTip": "Services\\SaleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:44:15.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ClientRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ClientRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ClientRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ClientRepository.cs",
+              "RelativeToolTip": "Repositories\\ClientRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:46:48.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\CategoryRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\CategoryRepository.cs",
+              "RelativeToolTip": "Repositories\\CategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:46:39.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ISaleRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ISaleRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ISaleRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ISaleRepository.cs",
+              "RelativeToolTip": "Repositories\\ISaleRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:39:59.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IProductRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\IProductRepository.cs",
+              "RelativeToolTip": "Repositories\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:39:36.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IClientRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\IClientRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IClientRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\IClientRepository.cs",
+              "RelativeToolTip": "Repositories\\IClientRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:39:19.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ISaleService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ISaleService.cs",
+              "RelativeDocumentMoniker": "Services\\ISaleService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ISaleService.cs",
+              "RelativeToolTip": "Services\\ISaleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:42:00.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\ICategoryRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\ICategoryRepository.cs",
+              "RelativeToolTip": "Repositories\\ICategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:39:00.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\IProductService.cs",
+              "RelativeDocumentMoniker": "Services\\IProductService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\IProductService.cs",
+              "RelativeToolTip": "Services\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:41:49.452Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IClientService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\IClientService.cs",
+              "RelativeDocumentMoniker": "Services\\IClientService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\IClientService.cs",
+              "RelativeToolTip": "Services\\IClientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:41:38.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ICategoryService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ICategoryService.cs",
+              "RelativeDocumentMoniker": "Services\\ICategoryService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\ICategoryService.cs",
+              "RelativeToolTip": "Services\\ICategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAQAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:41:29.341Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IBaseService.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\IBaseService.cs",
+              "RelativeDocumentMoniker": "Services\\IBaseService.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Services\\IBaseService.cs",
+              "RelativeToolTip": "Services\\IBaseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:20:05.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ApiResponse.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Models\\ViewModels\\ApiResponse.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\ApiResponse.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Models\\ViewModels\\ApiResponse.cs",
+              "RelativeToolTip": "Models\\ViewModels\\ApiResponse.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAAAYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:22:42.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IBaseRepository.cs",
+              "DocumentMoniker": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\IBaseRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IBaseRepository.cs",
+              "ToolTip": "C:\\ws\\repos\\dotnet\\SimpleStocker\\src\\SimpleStocker.Api\\Repositories\\IBaseRepository.cs",
+              "RelativeToolTip": "Repositories\\IBaseRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T19:19:40.929Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
