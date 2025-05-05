@@ -2,17 +2,17 @@
 
 namespace SimpleStocker.Api.Util
 {
-    public static class Mapper
+    public class Mapper
     {
-        public static TDestination Map<TSource, TDestination>(TSource source)
+        public static TDestination Map<TDestination>(object source)
         where TDestination : new()
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            TDestination destination = new TDestination();
+            TDestination destination = new();
 
-            PropertyInfo[] sourceProps = typeof(TSource).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] sourceProps = source.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
             PropertyInfo[] destProps = typeof(TDestination).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var destProp in destProps)

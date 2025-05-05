@@ -1,42 +1,13 @@
 ﻿using SimpleStocker.Api.Models.ViewModels;
+using SimpleStocker.Api.Services;
 
 namespace SimpleStocker.Api.Endpoints
 {
     public static class ClientEndpoints
     {
-        public static WebApplication MapClientEndpoints(this WebApplication service)
+        public static WebApplication MapClientEndpoints(this WebApplication app)
         {
-            string basePath = "clients";
-            service.MapGet($"{basePath}", () =>
-            {
-                return Results.Ok();
-
-            });
-
-            service.MapGet($"{basePath}/{{id:long}}", (long id) =>
-            {
-                return Results.Ok();
-
-            });
-
-            service.MapPost($"{basePath}", (ClientViewModel model) =>
-            {
-                return Results.Ok();
-
-            });
-
-            service.MapPut($"{basePath}/{{id:long}}", (long id, ClientViewModel model) =>
-            {
-                return Results.Ok();
-            });
-
-            service.MapDelete($"{basePath}/{{id:long}}", (long id) =>
-            {
-                return Results.Ok();
-
-            });
-
-            return service;
+            return app.MapCrudEndpoints<IClientService, ClientViewModel>("clients");
         }
     }
 }

@@ -1,42 +1,13 @@
 ﻿using SimpleStocker.Api.Models.ViewModels;
+using SimpleStocker.Api.Services;
 
 namespace SimpleStocker.Api.Endpoints
 {
     public static class SaleEndpoints
     {
-        public static WebApplication MapSaleEndpoints(this WebApplication service)
+        public static WebApplication MapSaleEndpoints(this WebApplication app)
         {
-            string basePath = "sales";
-            service.MapGet($"{basePath}",()=>
-            {
-                return Results.Ok();
-
-            });
-
-            service.MapGet($"{basePath}/{{id:long}}", (long id) =>
-            {
-                return Results.Ok();
-
-            });
-
-            service.MapPost($"{basePath}", (SaleViewModel model) =>
-            {
-                return Results.Ok();
-
-            });
-
-            service.MapPut($"{basePath}/{{id:long}}", (long id, SaleViewModel model)=>
-            {
-                return Results.Ok();
-            });
-
-            service.MapDelete($"{basePath}/{{id:long}}", (long id)=>
-            {
-                return Results.Ok();
-
-            });
-
-            return service;
+            return app.MapCrudEndpoints<ISaleService, SaleViewModel>("sales");
         }
     }
 }

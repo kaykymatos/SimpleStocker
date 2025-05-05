@@ -8,6 +8,6 @@ namespace SimpleStocker.Api.Repositories
         Task<T> UpdateAsync(T entity);
         Task<bool> DeleteAsync(T entity);
         Task<List<T>> GetAllAsync();
-        Task<T> GetOneAsync();
+        Task<T> GetOneAsync(long id);
     }
 }

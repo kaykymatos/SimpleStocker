@@ -1,9 +1,11 @@
+using FluentValidation;
+using SimpleStocker.Api.Context;
 using SimpleStocker.Api.Endpoints;
-using SimpleStocker.Api.Models.Entities;
+using SimpleStocker.Api.Middlewares;
 using SimpleStocker.Api.Models.ViewModels;
 using SimpleStocker.Api.Repositories;
 using SimpleStocker.Api.Services;
-using SimpleStocker.Api.Util;
+using SimpleStocker.Api.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,25 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin() // Permite qualquer origem
+              .AllowAnyMethod() // Permite qualquer método HTTP
+              .AllowAnyHeader(); // Permite qualquer cabeçalho
+    });
+});
+builder.Services.AddSingleton<DapperContext>();
 
+//builder.Services.AddScoped<IDbConnection>(sp =>
+//    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IValidator<CategoryViewModel>, CategoryValidator>();
+builder.Services.AddScoped<IValidator<ClientViewModel>, ClientValidator>();
+builder.Services.AddScoped<IValidator<ProductViewModel>, ProductValidator>();
+builder.Services.AddScoped<IValidator<SaleItemViewModel>, SaleItemValidator>();
+builder.Services.AddScoped<IValidator<SaleViewModel>, SaleValidator>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
@@ -24,39 +44,22 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 
 var app = builder.Build();
-app.MapSaleEndpoints();
+
+app.MapCategoryEndpoints()
+    .MapClientEndpoints()
+    .MapProductEndpoints()
+    .MapSaleEndpoints();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

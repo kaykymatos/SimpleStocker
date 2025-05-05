@@ -1,37 +1,116 @@
-﻿using SimpleStocker.Api.Models.Entities;
+﻿using Dapper;
+using SimpleStocker.Api.Context;
+using SimpleStocker.Api.Models.Entities;
 
 namespace SimpleStocker.Api.Repositories
 {
     public class SaleRepository : ISaleRepository
     {
-        public SaleRepository()
-        {
+        private readonly DapperContext _context;
 
+        public SaleRepository(DapperContext context)
+        {
+            _context = context;
         }
 
-        public Task<Sale> CreateAsync(Sale entity)
+        public async Task<Sale> CreateAsync(Sale entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sql = "INSERT INTO Sales (CustomerId, TotalAmount, Discount, PaymentMethod, Status)" +
+                    " VALUES (@CustomerId, @TotalAmount, @Discount, @PaymentMethod, @Status)";
+                DynamicParameters parameters = new();
+                parameters.Add("@CustomerId", entity.CustomerId);
+                parameters.Add("@TotalAmount", entity.TotalAmount);
+                parameters.Add("@Discount", entity.Discount);
+                parameters.Add("@PaymentMethod", entity.PaymentMethod);
+                parameters.Add("@Status", entity.Status);
+
+                using var _db = _context.CreateConnection();
+                await _db.ExecuteAsync(sql, parameters);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<bool> DeleteAsync(Sale entity)
+        public async Task<bool> DeleteAsync(Sale entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sql = "SELECT * FROM Sales where Id = @Id";
+                DynamicParameters parameters = new();
+                parameters.Add("@Id", entity.Id);
+                using var _db = _context.CreateConnection();
+                await _db.ExecuteAsync(sql, parameters);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<List<Sale>> GetAllAsync()
+        public async Task<List<Sale>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sql = "SELECT * FROM Sales";
+                using var _db = _context.CreateConnection();
+                var Sales = await _db.QueryAsync<Sale>(sql);
+                return [.. Sales];
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Sale> GetOneAsync()
+        public async Task<Sale> GetOneAsync(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sql = "SELECT * FROM Sales where Id = @Id";
+                DynamicParameters parameters = new();
+                parameters.Add("@Id", id);
+                using var _db = _context.CreateConnection();
+                return await _db.QueryFirstOrDefaultAsync<Sale>(sql, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<Sale> UpdateAsync(Sale entity)
+        public async Task<Sale> UpdateAsync(Sale entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var sql = "UPDATE Sales SET " +
+                    "CustomerId = @CustomerId, " +
+                    "TotalAmount = @TotalAmount, " +
+                    "Discount = @Discount, " +
+                    "PaymentMethod = @PaymentMethod , " +
+                    "Status = @Status " +
+                   " where Id = @Id";
+
+                DynamicParameters parameters = new();
+                parameters.Add("@Id", entity.Id);
+                parameters.Add("@CustomerId", entity.CustomerId);
+                parameters.Add("@TotalAmount", entity.TotalAmount);
+                parameters.Add("@Discount", entity.Discount);
+                parameters.Add("@PaymentMethod", entity.PaymentMethod);
+                parameters.Add("@Status", entity.Status);
+                using var _db = _context.CreateConnection();
+                await _db.ExecuteAsync(sql, parameters);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

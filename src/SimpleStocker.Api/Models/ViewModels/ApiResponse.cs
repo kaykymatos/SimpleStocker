@@ -1,16 +1,12 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace SimpleStocker.Api.Models.ViewModels
+﻿namespace SimpleStocker.Api.Models.ViewModels
 {
     public class ApiResponse<T>
     {
-        private bool Success { get; set; }               // Indica sucesso ou falha
-        private string Message { get; set; }             // Mensagem amigável para o usuário
-        private List<string> Errors { get; set; }        // Lista de erros, se houver
-        private T Data { get; set; }                     // Objeto ou lista de dados retornados
-        private int StatusCode { get; set; }             // Código de status HTTP
+        public bool Success { get; private set; }               // Indica sucesso ou falha
+        public string Message { get; private set; }             // Mensagem amigável para o usuário
+        public List<string> Errors { get; private set; }        // Lista de erros, se houver
+        public T Data { get; private set; }                     // Objeto ou lista de dados retornados
+        public int StatusCode { get; private set; }             // Código de status HTTP
 
         public ApiResponse()
         {
@@ -26,6 +22,24 @@ namespace SimpleStocker.Api.Models.ViewModels
             StatusCode = statusCode;
         }
 
+        public ApiResponse(List<string> errors)
+        {
+            Success = false;
+            Message = "";
+            Errors = errors;
+            Data = default;
+            StatusCode = 400;
+        }
+
+        public ApiResponse(string message)
+        {
+            Success = false;
+            Message = message;
+            Errors = [];
+            Data = default;
+            StatusCode = 400;
+        }
+
         // Sucesso (200 ou outro)
         public static ApiResponse<T> SuccessResponse(T data, string message = "Operação realizada com sucesso", int statusCode = 200)
         {
@@ -35,13 +49,13 @@ namespace SimpleStocker.Api.Models.ViewModels
         // Erro 400 - Requisição malformada, validação etc.
         public static ApiResponse<T> BadRequestResponse(List<string> errors, T model)
         {
-            return new ApiResponse<T>(false, "", errors ?? ["Erro de validação ou parâmetros incorretos."],model,400);
+            return new ApiResponse<T>(false, "", errors ?? ["Erro de validação ou parâmetros incorretos."], model, 400);
         }
 
         // Erro 500 - Erro interno
         public static ApiResponse<T> InternalServerErrorResponse(Exception ex, T model)
-        {   
-            return new ApiResponse<T>(false,"Erro interno do servidor: " + ex.Message, [],model,500);
+        {
+            return new ApiResponse<T>(false, "Erro interno do servidor: " + ex.Message, [], model, 500);
         }
     }
 }
