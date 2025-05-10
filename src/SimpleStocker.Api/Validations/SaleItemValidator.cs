@@ -5,7 +5,7 @@ namespace SimpleStocker.Api.Validations
 {
     public class SaleItemValidator : AbstractValidator<SaleItemViewModel>
     {
-        public SaleItemValidator()
+        public SaleItemValidator(bool update = false)
         {
 
         }

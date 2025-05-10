@@ -5,7 +5,7 @@ namespace SimpleStocker.Api.Validations
 {
     public class CategoryValidator : AbstractValidator<CategoryViewModel>
     {
-        public CategoryValidator()
+        public CategoryValidator(bool update = false)
         {
 
         }

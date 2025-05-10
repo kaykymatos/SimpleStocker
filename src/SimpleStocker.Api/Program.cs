@@ -27,11 +27,6 @@ builder.Services.AddSingleton<DapperContext>();
 //builder.Services.AddScoped<IDbConnection>(sp =>
 //    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IValidator<CategoryViewModel>, CategoryValidator>();
-builder.Services.AddScoped<IValidator<ClientViewModel>, ClientValidator>();
-builder.Services.AddScoped<IValidator<ProductViewModel>, ProductValidator>();
-builder.Services.AddScoped<IValidator<SaleItemViewModel>, SaleItemValidator>();
-builder.Services.AddScoped<IValidator<SaleViewModel>, SaleValidator>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();

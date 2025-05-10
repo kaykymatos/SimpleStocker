@@ -5,7 +5,7 @@ namespace SimpleStocker.Api.Validations
 {
     public class ClientValidator : AbstractValidator<ClientViewModel>
     {
-        public ClientValidator()
+        public ClientValidator(bool update = false)
         {
 
         }

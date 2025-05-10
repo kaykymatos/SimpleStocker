@@ -1,19 +1,21 @@
-﻿namespace SimpleStocker.Api.Models.ViewModels
+﻿using Swashbuckle.AspNetCore.SwaggerGen;
+
+namespace SimpleStocker.Api.Models.ViewModels
 {
     public class ApiResponse<T>
     {
         public bool Success { get; private set; }               // Indica sucesso ou falha
         public string Message { get; private set; }             // Mensagem amigável para o usuário
-        public List<string> Errors { get; private set; }        // Lista de erros, se houver
+        public List<Dictionary<string, string>> Errors { get; private set; }        // Lista de erros, se houver
         public T Data { get; private set; }                     // Objeto ou lista de dados retornados
         public int StatusCode { get; private set; }             // Código de status HTTP
 
         public ApiResponse()
         {
-            Errors = new List<string>();
+            Errors = [];
         }
 
-        public ApiResponse(bool success, string message, List<string> errors, T data, int statusCode)
+        public ApiResponse(bool success, string message, List<Dictionary<string, string>> errors, T data, int statusCode)
         {
             Success = success;
             Message = message;
@@ -22,11 +24,19 @@
             StatusCode = statusCode;
         }
 
-        public ApiResponse(List<string> errors)
+        public ApiResponse(List<Dictionary<string, string>> errors)
         {
             Success = false;
             Message = "";
             Errors = errors;
+            Data = default;
+            StatusCode = 400;
+        }
+        public ApiResponse(string field, string error)
+        {
+            Success = false;
+            Message = "";
+            Errors.Add(new Dictionary<string, string> { {field, error }});
             Data = default;
             StatusCode = 400;
         }
@@ -47,9 +57,12 @@
         }
 
         // Erro 400 - Requisição malformada, validação etc.
-        public static ApiResponse<T> BadRequestResponse(List<string> errors, T model)
+        public static ApiResponse<T> BadRequestResponse(List<Dictionary<string, string>> errors, T model)
         {
-            return new ApiResponse<T>(false, "", errors ?? ["Erro de validação ou parâmetros incorretos."], model, 400);
+            return new ApiResponse<T>(false, "", errors ?? new List<Dictionary<string, string>>
+                    {
+                        new Dictionary<string, string> { { "Server", "Erro de validação ou parâmetros incorretos." } }
+                    }, model, 400);
         }
 
         // Erro 500 - Erro interno
