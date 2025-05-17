@@ -7,27 +7,38 @@ namespace SimpleStocker.Api.Repositories
     public class SaleRepository : ISaleRepository
     {
         private readonly DapperContext _context;
+        private readonly ISaleItemRepository _saleItemRepository;
 
-        public SaleRepository(DapperContext context)
+        public SaleRepository(DapperContext context, ISaleItemRepository saleItemRepository)
         {
             _context = context;
+            _saleItemRepository = saleItemRepository;
         }
 
         public async Task<Sale> CreateAsync(Sale entity)
         {
             try
             {
-                var sql = "INSERT INTO Sales (CustomerId, TotalAmount, Discount, PaymentMethod, Status)" +
-                    " VALUES (@CustomerId, @TotalAmount, @Discount, @PaymentMethod, @Status)";
+                var sql = "INSERT INTO Sales (CustomerId,  Discount, PaymentMethod, Status)" +
+                    " VALUES (@CustomerId,  @Discount, @PaymentMethod, @Status) RETURNING Id;";
                 DynamicParameters parameters = new();
                 parameters.Add("@CustomerId", entity.CustomerId);
-                parameters.Add("@TotalAmount", entity.TotalAmount);
                 parameters.Add("@Discount", entity.Discount);
                 parameters.Add("@PaymentMethod", entity.PaymentMethod);
                 parameters.Add("@Status", entity.Status);
 
                 using var _db = _context.CreateConnection();
-                await _db.ExecuteAsync(sql, parameters);
+                var id = await _db.ExecuteScalarAsync<long>(sql, parameters);
+                entity.Id = id;
+
+                foreach (var item in entity.Items)
+                {
+                    item.SaleId = id;
+                    await _saleItemRepository.CreateAsync(item);
+                }
+
+                entity.Id = id;
+
                 return entity;
             }
             catch (Exception ex)
@@ -40,7 +51,8 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Sales where Id = @Id";
+                await _saleItemRepository.DeleteBySaleId(entity.Id);
+                var sql = "DELETE FROM Sales where Id = @Id";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 using var _db = _context.CreateConnection();
@@ -57,10 +69,14 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Sales";
+                var sql = "SELECT * FROM Sales ORDER BY ID;";
                 using var _db = _context.CreateConnection();
-                var Sales = await _db.QueryAsync<Sale>(sql);
-                return [.. Sales];
+                var sales = await _db.QueryAsync<Sale>(sql);
+
+                foreach (var item in sales)
+                    item.Items = await _saleItemRepository.GetAllSaleItemsBySaleId(item.Id);
+
+                return [.. sales];
             }
             catch (Exception ex)
             {
@@ -76,7 +92,12 @@ namespace SimpleStocker.Api.Repositories
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", id);
                 using var _db = _context.CreateConnection();
-                return await _db.QueryFirstOrDefaultAsync<Sale>(sql, parameters);
+                var item = await _db.QueryFirstOrDefaultAsync<Sale>(sql, parameters);
+
+                if (item != null)
+                    item.Items = await _saleItemRepository.GetAllSaleItemsBySaleId(id);
+
+                return item;
             }
             catch (Exception ex)
             {
@@ -90,19 +111,19 @@ namespace SimpleStocker.Api.Repositories
             {
                 var sql = "UPDATE Sales SET " +
                     "CustomerId = @CustomerId, " +
-                    "TotalAmount = @TotalAmount, " +
                     "Discount = @Discount, " +
                     "PaymentMethod = @PaymentMethod , " +
+                    "UpdatedDate = @UpdatedDate , " +
                     "Status = @Status " +
                    " where Id = @Id";
 
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 parameters.Add("@CustomerId", entity.CustomerId);
-                parameters.Add("@TotalAmount", entity.TotalAmount);
                 parameters.Add("@Discount", entity.Discount);
                 parameters.Add("@PaymentMethod", entity.PaymentMethod);
                 parameters.Add("@Status", entity.Status);
+                parameters.Add("@UpdatedDate", DateTime.Now);
                 using var _db = _context.CreateConnection();
                 await _db.ExecuteAsync(sql, parameters);
                 return entity;
@@ -111,6 +132,35 @@ namespace SimpleStocker.Api.Repositories
             {
                 throw new Exception(ex.Message);
             }
+        }
+        public async Task ClearDb()
+        {
+            var sql = "DELETE FROM Sales";
+            await _saleItemRepository.ClearDb();
+            using var _db = _context.CreateConnection();
+            await _db.ExecuteAsync(sql);
+        }
+
+        public async Task<List<Sale>> GetAllSalesByClientId(long clientId)
+        {
+            try
+            {
+                var sql = "SELECT * FROM Sales where CustomerId = @CustomerId ORDER BY ID;";
+                using var _db = _context.CreateConnection();
+                DynamicParameters parameters = new();
+                parameters.Add("@CustomerId", clientId);
+                var sales = await _db.QueryAsync<Sale>(sql);
+
+                foreach (var item in sales)
+                    item.Items = await _saleItemRepository.GetAllSaleItemsBySaleId(item.Id);
+
+                return [.. sales];
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
     }
 }

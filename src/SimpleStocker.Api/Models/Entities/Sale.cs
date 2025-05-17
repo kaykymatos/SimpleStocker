@@ -6,8 +6,8 @@ namespace SimpleStocker.Api.Models.Entities
     {
         public List<SaleItem> Items { get; set; }
         public long CustomerId { get; set; }
-        public decimal TotalAmount { get => Items.Sum(item => item.SubTotal) - Discount; }
-        public decimal Discount { get; private set; }
+        public decimal TotalAmount  => Items!=null?Items.Sum(item => item.SubTotal) - Discount:0;
+        public decimal Discount { get;  set; }
         public EPaymentMethod PaymentMethod { get; set; }
         public ESaleStatus Status { get; set; }
 

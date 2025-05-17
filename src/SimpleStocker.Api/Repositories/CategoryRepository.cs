@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using SimpleStocker.Api.Context;
 using SimpleStocker.Api.Models.Entities;
+using static Dapper.SqlMapper;
 
 namespace SimpleStocker.Api.Repositories
 {
@@ -13,16 +14,26 @@ namespace SimpleStocker.Api.Repositories
             _context = context;
         }
 
+        public async Task ClearDb()
+        {
+            var sql = "delete from Categories";
+
+            using var _db = _context.CreateConnection();
+            await _db.ExecuteAsync(sql);
+        }
+
         public async Task<Category> CreateAsync(Category entity)
         {
             try
             {
-                var sql = "INSERT INTO Categories (Name, Description) VALUES (@Name, @Description)";
+                var sql = "INSERT INTO Categories (Name, Description) VALUES (@Name, @Description) RETURNING Id;";
                 DynamicParameters parameters = new();
                 parameters.Add("@Name", entity.Name);
                 parameters.Add("@Description", entity.Description);
                 using var _db = _context.CreateConnection();
-                await _db.ExecuteAsync(sql, parameters);
+                var id = await _db.ExecuteScalarAsync<long>(sql, parameters);
+
+                entity.Id = id;
                 return entity;
             }
             catch (Exception ex)
@@ -35,9 +46,11 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
+                var sql = "DELETE FROM Categories where Id = @Id ORDER BY ID;";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 using var _db = _context.CreateConnection();
+                await _db.ExecuteAsync(sql, parameters);
                 return true;
             }
             catch (Exception ex)
@@ -50,7 +63,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Categories";
+                var sql = "SELECT * FROM Categories ORDER BY ID;";
                 using var _db = _context.CreateConnection();
                 var categories = await _db.QueryAsync<Category>(sql);
                 return [.. categories];
@@ -65,7 +78,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Categories where Id = @Id";
+                var sql = "SELECT * FROM Categories where Id = @Id;";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", id);
                 using var _db = _context.CreateConnection();
@@ -81,11 +94,12 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "UPDATE Categories SET Name = @Name, Description = @Description WHERE Id = @Id";
+                var sql = "UPDATE Categories SET Name = @Name, Description = @Description, UpdatedDate=@UpdatedDate WHERE Id = @Id";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 parameters.Add("@Name", entity.Name);
                 parameters.Add("@Description", entity.Description);
+                parameters.Add("@UpdatedDate", DateTime.Now);
                 using var _db = _context.CreateConnection();
                 await _db.ExecuteAsync(sql, parameters);
                 return entity;

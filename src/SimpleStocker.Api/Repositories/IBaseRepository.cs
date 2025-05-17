@@ -9,5 +9,6 @@ namespace SimpleStocker.Api.Repositories
         Task<bool> DeleteAsync(T entity);
         Task<List<T>> GetAllAsync();
         Task<T> GetOneAsync(long id);
+        Task ClearDb();
     }
 }

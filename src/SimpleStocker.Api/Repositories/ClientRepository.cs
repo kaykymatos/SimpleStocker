@@ -18,7 +18,7 @@ namespace SimpleStocker.Api.Repositories
             try
             {
                 var sql = "INSERT INTO Clients (Name, Email, PhoneNumer, Address, AddressNumber, Active, BirthDate)" +
-                    " VALUES (@Name, @Email, @PhoneNumer, @Address, @AddressNumber, @Active, @BirthDate)";
+                    " VALUES (@Name, @Email, @PhoneNumer, @Address, @AddressNumber, @Active, @BirthDate) RETURNING Id;";
                 DynamicParameters parameters = new();
                 parameters.Add("@Name", entity.Name);
                 parameters.Add("@Email", entity.Email);
@@ -28,7 +28,8 @@ namespace SimpleStocker.Api.Repositories
                 parameters.Add("@Active", entity.Active);
                 parameters.Add("@BirthDate", entity.BirthDate);
                 using var _db = _context.CreateConnection();
-                await _db.ExecuteAsync(sql, parameters);
+                var id = await _db.ExecuteScalarAsync<long>(sql, parameters);
+                entity.Id = id;
                 return entity;
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Clients where Id = @Id";
+                var sql = "DELETE FROM Clients where Id = @Id ORDER BY ID;";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 using var _db = _context.CreateConnection();
@@ -58,10 +59,10 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Clients";
+                var sql = "SELECT * FROM Clients ORDER BY ID;";
                 using var _db = _context.CreateConnection();
-                var Clients = await _db.QueryAsync<Client>(sql);
-                return [.. Clients];
+                var clients = await _db.QueryAsync<Client>(sql);
+                return [.. clients];
             }
             catch (Exception ex)
             {
@@ -96,8 +97,9 @@ namespace SimpleStocker.Api.Repositories
                     "Address = @Address , " +
                     "AddressNumber = @AddressNumber, " +
                     "Active = @Active, " +
-                    "BirthDate = @BirthDate" +
-                   " where Id = @Id";
+                    "UpdatedDate = @UpdatedDate, " +
+                    "BirthDate = @BirthDate " +
+                    "where Id = @Id";
 
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
@@ -108,6 +110,7 @@ namespace SimpleStocker.Api.Repositories
                 parameters.Add("@AddressNumber", entity.AddressNumber);
                 parameters.Add("@Active", entity.Active);
                 parameters.Add("@BirthDate", entity.BirthDate);
+                parameters.Add("@UpdatedDate", DateTime.Now);
                 using var _db = _context.CreateConnection();
                 await _db.ExecuteAsync(sql, parameters);
                 return entity;
@@ -116,6 +119,13 @@ namespace SimpleStocker.Api.Repositories
             {
                 throw new Exception(ex.Message);
             }
+        }
+        public async Task ClearDb()
+        {
+            var sql = "delete from Clients";
+
+            using var _db = _context.CreateConnection();
+            await _db.ExecuteAsync(sql);
         }
     }
 }

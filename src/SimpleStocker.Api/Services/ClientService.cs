@@ -10,9 +10,11 @@ namespace SimpleStocker.Api.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _repository;
-        public ClientService(IClientRepository repository)
+        private readonly ISaleRepository _salesRepository;
+        public ClientService(IClientRepository repository, ISaleRepository salesRepository)
         {
             _repository = repository;
+            _salesRepository = salesRepository;
         }
 
         public async Task<ApiResponse<ClientViewModel>> CreateAsync(ClientViewModel entity)
@@ -27,7 +29,7 @@ namespace SimpleStocker.Api.Services
                 var res = await _repository.CreateAsync(mapperModel);
                 if (res == null)
                     return new ApiResponse<ClientViewModel>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<ClientViewModel>();
+                return new ApiResponse<ClientViewModel>(true, "", [], Mapper.Map<ClientViewModel>(res), 200);
             }
             catch (Exception ex)
             {
@@ -42,6 +44,10 @@ namespace SimpleStocker.Api.Services
                 var foundEntity = await _repository.GetOneAsync(id);
                 if (foundEntity == null)
                     return new ApiResponse<ClientViewModel>("Id", "Id não encontrado!" );
+                
+                var sales = await _salesRepository.GetAllSalesByClientId(id);
+                if (sales.Count > 0)
+                    return new ApiResponse<ClientViewModel>("Sale", "Este cliente tem vendas vinculadas!" );
 
                 var deleteItem = await _repository.DeleteAsync(foundEntity);
                 if (deleteItem)
@@ -109,7 +115,7 @@ namespace SimpleStocker.Api.Services
                 var res = await _repository.UpdateAsync(mapperModel);
                 if (res == null)
                     return new ApiResponse<ClientViewModel>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<ClientViewModel>();
+                return new ApiResponse<ClientViewModel>(true, "", [], Mapper.Map<ClientViewModel>(res), 200);
             }
             catch (Exception ex)
             {

@@ -18,17 +18,18 @@ namespace SimpleStocker.Api.Repositories
             try
             {
                 var sql = "INSERT INTO Products (Name, Description, QuantityStock, UnityOfMeasurement, Price, CategoryId)" +
-                    " VALUES (@Name, @Description, @QuantityStock, @UnityOfMeasurement, @Price, @CategoryId)";
+                    " VALUES (@Name, @Description, @QuantityStock, @UnityOfMeasurement, @Price, @CategoryId) RETURNING Id;";
                 DynamicParameters parameters = new();
                 parameters.Add("@Name", entity.Name);
-                parameters.Add("@Email", entity.Description);
+                parameters.Add("@Description", entity.Description);
                 parameters.Add("@QuantityStock", entity.QuantityStock);
                 parameters.Add("@UnityOfMeasurement", entity.UnityOfMeasurement);
                 parameters.Add("@Price", entity.Price);
                 parameters.Add("@CategoryId", entity.CategoryId);
 
                 using var _db = _context.CreateConnection();
-                await _db.ExecuteAsync(sql, parameters);
+                var id = await _db.ExecuteScalarAsync<long>(sql, parameters);
+                entity.Id = id;
                 return entity;
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Products where Id = @Id";
+                var sql = "DELETE FROM Products where Id = @Id";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 using var _db = _context.CreateConnection();
@@ -58,10 +59,10 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Products";
+                var sql = "SELECT * FROM Products ORDER BY ID;";
                 using var _db = _context.CreateConnection();
-                var Products = await _db.QueryAsync<Product>(sql);
-                return [.. Products];
+                var products = await _db.QueryAsync<Product>(sql);
+                return [.. products];
             }
             catch (Exception ex)
             {
@@ -93,22 +94,48 @@ namespace SimpleStocker.Api.Repositories
                     "Name = @Name, " +
                     "Description = @Description, " +
                     "QuantityStock = @QuantityStock, " +
-                    "UnityOfMeasurement = @UnityOfMeasurement , " +
+                    "UnityOfMeasurement = @UnityOfMeasurement, " +
                     "Price = @Price, " +
+                    "UpdatedDate = @UpdatedDate, " +
                     "CategoryId = @CategoryId " +
                    " where Id = @Id";
 
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", entity.Id);
                 parameters.Add("@Name", entity.Name);
-                parameters.Add("@Email", entity.Description);
+                parameters.Add("@Description", entity.Description);
                 parameters.Add("@QuantityStock", entity.QuantityStock);
                 parameters.Add("@UnityOfMeasurement", entity.UnityOfMeasurement);
                 parameters.Add("@Price", entity.Price);
                 parameters.Add("@CategoryId", entity.CategoryId);
+                parameters.Add("@UpdatedDate", DateTime.Now);
                 using var _db = _context.CreateConnection();
                 await _db.ExecuteAsync(sql, parameters);
                 return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task ClearDb()
+        {
+            var sql = "delete from Products";
+
+            using var _db = _context.CreateConnection();
+           var res= await _db.ExecuteAsync(sql);
+        }
+
+        public async Task<List<Product>> GetAllTasksByCategoryId(long categoryId)
+        {
+            try
+            {
+                var sql = "SELECT * FROM Products where CategoryId = @CategoryId ORDER BY ID;";
+                using var _db = _context.CreateConnection();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@CategoryId", categoryId);
+                var Products = await _db.QueryAsync<Product>(sql,parameters);
+                return [.. Products];
             }
             catch (Exception ex)
             {

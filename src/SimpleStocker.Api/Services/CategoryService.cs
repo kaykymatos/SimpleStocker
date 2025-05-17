@@ -11,9 +11,11 @@ namespace SimpleStocker.Api.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
-        public CategoryService(ICategoryRepository repository)
+        private readonly IProductRepository _productRepository;
+        public CategoryService(ICategoryRepository repository, IProductRepository productRepository)
         {
             _repository = repository;
+            _productRepository = productRepository;
         }
 
         public async Task<ApiResponse<CategoryViewModel>> CreateAsync(CategoryViewModel entity)
@@ -28,7 +30,7 @@ namespace SimpleStocker.Api.Services
                 var res = await _repository.CreateAsync(mapperModel);
                 if (res == null)
                     return new ApiResponse<CategoryViewModel>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<CategoryViewModel>();
+                return new ApiResponse<CategoryViewModel>(true, "", [], Mapper.Map<CategoryViewModel>(res), 200);
             }
             catch (Exception ex)
             {
@@ -43,6 +45,10 @@ namespace SimpleStocker.Api.Services
                 var foundEntity = await _repository.GetOneAsync(id);
                 if (foundEntity == null)
                     return new ApiResponse<CategoryViewModel>("Id", "Id não encontrado!" );
+
+                var products = await _productRepository.GetAllTasksByCategoryId(id);
+                if(products.Count > 0)
+                    return new ApiResponse<CategoryViewModel>("Product", "Existem produtos vinculados a essa categoria!");
 
                 var deleteItem = await _repository.DeleteAsync(foundEntity);
                 if (deleteItem)
@@ -110,7 +116,7 @@ namespace SimpleStocker.Api.Services
                 var res = await _repository.UpdateAsync(mapperModel);
                 if (res == null)
                     return new ApiResponse<CategoryViewModel>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<CategoryViewModel>();
+                return new ApiResponse<CategoryViewModel>(true, "", [], Mapper.Map<CategoryViewModel>(res),200);
             }
             catch (Exception ex)
             {

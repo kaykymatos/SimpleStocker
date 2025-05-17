@@ -11,30 +11,47 @@ namespace SimpleStocker.Api.Services
     public class SaleService : ISaleService
     {
         private readonly ISaleRepository _repository;
-        public SaleService(ISaleRepository repository)
+        private readonly ISaleItemRepository _saleRepository;
+        public SaleService(ISaleRepository repository, ISaleItemRepository saleRepository)
         {
             _repository = repository;
+            _saleRepository = saleRepository;
         }
 
         public async Task<ApiResponse<SaleViewModel>> CreateAsync(SaleViewModel entity)
         {
+            // Validação
             var validation = new SaleValidator().Validate(entity);
-           
             if (!validation.IsValid)
                 return new ApiResponse<SaleViewModel>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
+
             try
             {
-                var mapperModel = Mapper.Map<Sale>(entity);
-                var res = await _repository.CreateAsync(mapperModel);
-                if (res == null)
+                // Mapeia SaleViewModel para Sale
+                var sale = Mapper.Map<Sale>(entity);
+                sale.Items = entity.Items
+                    .Select(item => Mapper.Map<SaleItem>(item))
+                    .ToList();
+
+                // Persiste a venda
+                var result = await _repository.CreateAsync(sale);
+                if (result == null)
                     return new ApiResponse<SaleViewModel>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<SaleViewModel>();
+
+                // Mapeia resultado de volta para ViewModel
+                var saleViewModel = Mapper.Map<SaleViewModel>(result);
+                saleViewModel.Items = result.Items
+                    .Select(item => Mapper.Map<SaleItemViewModel>(item))
+                    .ToList();
+
+                return new ApiResponse<SaleViewModel>(true, "", [], saleViewModel, 200);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.Message); // (Dica: Evite capturar exceções só para relançar — ou logue o erro, ou remova o catch)
             }
         }
+
 
         public async Task<ApiResponse<SaleViewModel>> DeleteAsync(long id)
         {
@@ -64,7 +81,12 @@ namespace SimpleStocker.Api.Services
                 List<SaleViewModel> lista = [];
                 foreach (var item in foundEntity)
                 {
-                    lista.Add(Mapper.Map<SaleViewModel>(item));
+                    var sale = Mapper.Map<SaleViewModel>(item);
+                    sale.Items = [];
+                    foreach (var item2 in item.Items)
+                        sale.Items.Add(Mapper.Map<SaleItemViewModel>(item2));
+
+                    lista.Add(sale);
                 }
                 return new ApiResponse<List<SaleViewModel>>(true, "", [], lista, 200);
 
@@ -100,17 +122,18 @@ namespace SimpleStocker.Api.Services
                 return new ApiResponse<SaleViewModel>("Id", "Item não encontrado");
 
             var validation = new SaleValidator(true).Validate(entity);
-          
+
             if (!validation.IsValid)
                 return new ApiResponse<SaleViewModel>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
 
             try
             {
                 var mapperModel = Mapper.Map<Sale>(entity);
+              
                 var res = await _repository.UpdateAsync(mapperModel);
                 if (res == null)
                     return new ApiResponse<SaleViewModel>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<SaleViewModel>();
+                return new ApiResponse<SaleViewModel>(true, "", [], Mapper.Map<SaleViewModel>(res), 200);
             }
             catch (Exception ex)
             {
