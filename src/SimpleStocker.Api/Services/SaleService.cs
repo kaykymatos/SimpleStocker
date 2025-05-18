@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using SimpleStocker.Api.Models.Entities;
+﻿using SimpleStocker.Api.Models.Entities;
 using SimpleStocker.Api.Models.ViewModels;
 using SimpleStocker.Api.Repositories;
 using SimpleStocker.Api.Util;

@@ -9,7 +9,7 @@
         public decimal SubTotal { get => (decimal)Quantity * UnityPrice; }
         public SaleItemViewModel()
         {
-            
+
         }
 
         public SaleItemViewModel(long id, DateTime creationDate, DateTime updatedDate, long saleId, long productId, double quantity, decimal unityPrice) : base(id, creationDate, updatedDate)

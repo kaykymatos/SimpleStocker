@@ -1,15 +1,11 @@
-using Dapper;
 using DbUp;
-using FluentValidation;
 using SimpleStocker.Api.Context;
 using SimpleStocker.Api.Endpoints;
 using SimpleStocker.Api.Middlewares;
-using SimpleStocker.Api.Models.Entities;
 using SimpleStocker.Api.Models.Entities.Enums;
 using SimpleStocker.Api.Models.ViewModels;
 using SimpleStocker.Api.Repositories;
 using SimpleStocker.Api.Services;
-using SimpleStocker.Api.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 

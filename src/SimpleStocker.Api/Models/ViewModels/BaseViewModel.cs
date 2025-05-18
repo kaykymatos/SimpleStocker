@@ -7,7 +7,7 @@
         public DateTime UpdatedDate { get; set; }
         public BaseViewModel()
         {
-                
+
         }
 
         public BaseViewModel(long id, DateTime createdDate, DateTime updatedDate)

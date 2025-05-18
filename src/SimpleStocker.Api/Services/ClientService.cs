@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using SimpleStocker.Api.Models.Entities;
+﻿using SimpleStocker.Api.Models.Entities;
 using SimpleStocker.Api.Models.ViewModels;
 using SimpleStocker.Api.Repositories;
 using SimpleStocker.Api.Util;
@@ -24,7 +23,7 @@ namespace SimpleStocker.Api.Services
         public async Task<ApiResponse<ClientViewModel>> CreateAsync(ClientViewModel entity)
         {
             var validation = new ClientValidator().Validate(entity);
-            
+
             if (!validation.IsValid)
                 return new ApiResponse<ClientViewModel>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
             try
@@ -47,11 +46,11 @@ namespace SimpleStocker.Api.Services
             {
                 var foundEntity = await _repository.GetOneAsync(id);
                 if (foundEntity == null)
-                    return new ApiResponse<ClientViewModel>("Id", "Id não encontrado!" );
-                
+                    return new ApiResponse<ClientViewModel>("Id", "Id não encontrado!");
+
                 var sales = await _salesRepository.GetAllSalesByClientId(id);
                 if (sales.Count > 0)
-                    return new ApiResponse<ClientViewModel>("Sale", "Este cliente tem vendas vinculadas!" );
+                    return new ApiResponse<ClientViewModel>("Sale", "Este cliente tem vendas vinculadas!");
 
                 var deleteItem = await _repository.DeleteAsync(foundEntity);
                 if (deleteItem)
@@ -109,7 +108,7 @@ namespace SimpleStocker.Api.Services
                 return new ApiResponse<ClientViewModel>("Id", "Item não encontrado");
 
             var validation = new ClientValidator(true).Validate(entity);
-         
+
             if (!validation.IsValid)
                 return new ApiResponse<ClientViewModel>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
 

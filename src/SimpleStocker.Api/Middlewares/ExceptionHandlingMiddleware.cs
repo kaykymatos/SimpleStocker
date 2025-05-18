@@ -30,7 +30,7 @@ namespace SimpleStocker.Api.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            var response = new ApiResponse<object>(false, "Erro interno no servicor "+ exception.Message, [], new object(), context.Response.StatusCode);
+            var response = new ApiResponse<object>(false, "Erro interno no servicor " + exception.Message, [], new object(), context.Response.StatusCode);
 
             var json = JsonSerializer.Serialize(response);
             return context.Response.WriteAsync(json);

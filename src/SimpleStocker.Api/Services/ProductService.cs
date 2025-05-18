@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using SimpleStocker.Api.Models.Entities;
+﻿using SimpleStocker.Api.Models.Entities;
 using SimpleStocker.Api.Models.ViewModels;
 using SimpleStocker.Api.Repositories;
 using SimpleStocker.Api.Util;
@@ -52,7 +50,7 @@ namespace SimpleStocker.Api.Services
 
 
                 var sales = await _saleItemRepository.GetAllSaleItemsByProductId(id);
-                if(sales.Count>0)
+                if (sales.Count > 0)
                     return new ApiResponse<ProductViewModel>("SaleItem", "Existem vendas vinculadas com esse produto!");
 
                 var deleteItem = await _repository.DeleteAsync(foundEntity);
@@ -107,7 +105,7 @@ namespace SimpleStocker.Api.Services
         public async Task<ApiResponse<ProductViewModel>> UpdateAsync(ProductViewModel entity)
         {
             var originalEntity = await _repository.GetOneAsync(entity.Id);
-                if (originalEntity == null)
+            if (originalEntity == null)
                 return new ApiResponse<ProductViewModel>("Id", "Item não encontrado");
 
             var validation = new ProductValidator(true).Validate(entity);

@@ -1,6 +1,4 @@
-﻿using Swashbuckle.AspNetCore.SwaggerGen;
-
-namespace SimpleStocker.Api.Models.ViewModels
+﻿namespace SimpleStocker.Api.Models.ViewModels
 {
     public class ApiResponse<T>
     {
@@ -36,7 +34,7 @@ namespace SimpleStocker.Api.Models.ViewModels
         {
             Success = false;
             Message = "";
-            Errors.Add(new Dictionary<string, string> { {field, error }});
+            Errors.Add(new Dictionary<string, string> { { field, error } });
             Data = default;
             StatusCode = 400;
         }
@@ -61,7 +59,7 @@ namespace SimpleStocker.Api.Models.ViewModels
         {
             return new ApiResponse<T>(false, "", errors ?? new List<Dictionary<string, string>>
                     {
-                        new Dictionary<string, string> { { "Server", "Erro de validação ou parâmetros incorretos." } }
+                        new() { { "Server", "Erro de validação ou parâmetros incorretos." } }
                     }, model, 400);
         }
 

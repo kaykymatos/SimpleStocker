@@ -123,7 +123,7 @@ namespace SimpleStocker.Api.Repositories
             var sql = "delete from Products";
 
             using var _db = _context.CreateConnection();
-           var res= await _db.ExecuteAsync(sql);
+            var res = await _db.ExecuteAsync(sql);
         }
 
         public async Task<List<Product>> GetAllTasksByCategoryId(long categoryId)
@@ -132,9 +132,9 @@ namespace SimpleStocker.Api.Repositories
             {
                 var sql = "SELECT * FROM Products where CategoryId = @CategoryId ORDER BY ID;";
                 using var _db = _context.CreateConnection();
-                DynamicParameters parameters = new DynamicParameters();
+                DynamicParameters parameters = new();
                 parameters.Add("@CategoryId", categoryId);
-                var Products = await _db.QueryAsync<Product>(sql,parameters);
+                var Products = await _db.QueryAsync<Product>(sql, parameters);
                 return [.. Products];
             }
             catch (Exception ex)

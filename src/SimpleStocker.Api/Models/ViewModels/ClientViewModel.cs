@@ -12,7 +12,7 @@
 
         public ClientViewModel()
         {
-            
+
         }
 
         public ClientViewModel(long id, DateTime creationDate, DateTime updatedDate, string name, string email, string phoneNumer, string address, string addressNumber, bool active, DateTime birthDate) : base(id, creationDate, updatedDate)

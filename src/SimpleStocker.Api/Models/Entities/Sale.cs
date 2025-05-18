@@ -7,7 +7,7 @@ namespace SimpleStocker.Api.Models.Entities
         public List<SaleItem> Items { get; set; }
         public long CustomerId { get; set; }
         public decimal TotalAmount { get; set; }
-        public decimal Discount { get;  set; }
+        public decimal Discount { get; set; }
         public EPaymentMethod PaymentMethod { get; set; }
         public ESaleStatus Status { get; set; }
 

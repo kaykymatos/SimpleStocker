@@ -98,7 +98,7 @@ namespace SimpleStocker.Api.Repositories
             try
             {
                 var sql = "SELECT * FROM SaleItems where SaleId = @SaleId ORDER BY ID;";
-                DynamicParameters parameters = new DynamicParameters();
+                DynamicParameters parameters = new();
                 parameters.Add("@SaleId", saleId);
                 using var _db = _context.CreateConnection();
                 var saleItems = await _db.QueryAsync<SaleItem>(sql, parameters);
@@ -115,7 +115,7 @@ namespace SimpleStocker.Api.Repositories
             try
             {
                 var sql = "SELECT * FROM SaleItems where ProductId = @ProductId ORDER BY ID;";
-                DynamicParameters parameters = new DynamicParameters();
+                DynamicParameters parameters = new();
                 parameters.Add("@ProductId", productId);
                 using var _db = _context.CreateConnection();
                 var saleItems = await _db.QueryAsync<SaleItem>(sql, parameters);

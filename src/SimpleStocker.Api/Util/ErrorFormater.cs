@@ -6,13 +6,13 @@ namespace SimpleStocker.Api.Util
     {
         public static List<Dictionary<string, string>> FulentValidationResultToDictionaryList(ValidationResult validation)
         {
-           return validation.Errors
-    .GroupBy(x => x.PropertyName)
-    .Select(group => new Dictionary<string, string>
-    {
+            return validation.Errors
+     .GroupBy(x => x.PropertyName)
+     .Select(group => new Dictionary<string, string>
+     {
         { group.Key, group.First().ErrorMessage }
-    })
-    .ToList();
+     })
+     .ToList();
         }
     }
 }
