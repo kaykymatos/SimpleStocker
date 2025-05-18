@@ -58,10 +58,10 @@ if (builder.Environment.IsDevelopment())
 {
     var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
 
-    var clientRepository = scopeFactory.GetRequiredService<IClientRepository>();
-    var productRepository = scopeFactory.GetRequiredService<IProductRepository>();
-    var saleRepository = scopeFactory.GetRequiredService<ISaleRepository>();
-    var categoryRepository = scopeFactory.GetRequiredService<ICategoryRepository>();
+    var clientRepository = scopeFactory.GetRequiredService<IClientService>();
+    var productRepository = scopeFactory.GetRequiredService<IProductService>();
+    var saleRepository = scopeFactory.GetRequiredService<ISaleService>();
+    var categoryRepository = scopeFactory.GetRequiredService<ICategoryService>();
 
     await saleRepository.ClearDb();
     await clientRepository.ClearDb();
@@ -69,76 +69,76 @@ if (builder.Environment.IsDevelopment())
     await categoryRepository.ClearDb();
 
     //Categories
-    var cat1 = await categoryRepository.CreateAsync(new Category { Name = "Alimentos", Description = "Produtos alimentícios em geral" });
-    var cat2 = await categoryRepository.CreateAsync(new Category { Name = "Limpeza", Description = "Produtos de limpeza doméstica" });
-    var cat3 = await categoryRepository.CreateAsync(new Category { Name = "Eletrônicos", Description = "Aparelhos eletrônicos e acessórios" });
-    var cat4 = await categoryRepository.CreateAsync(new Category { Name = "Vestuário", Description = "Roupas e vestuário em geral" });
-    var cat5 = await categoryRepository.CreateAsync(new Category { Name = "Escritório", Description = "Material para escritório e papelaria" });
-    var cat6 = await categoryRepository.CreateAsync(new Category { Name = "Bebidas", Description = "Bebidas alcoólicas e não alcoólicas" });
+    var cat1 = await categoryRepository.CreateAsync(new CategoryViewModel { Name = "Alimentos", Description = "Produtos alimentícios em geral" });
+    var cat2 = await categoryRepository.CreateAsync(new CategoryViewModel { Name = "Limpeza", Description = "Produtos de limpeza doméstica" });
+    var cat3 = await categoryRepository.CreateAsync(new CategoryViewModel { Name = "Eletrônicos", Description = "Aparelhos eletrônicos e acessórios" });
+    var cat4 = await categoryRepository.CreateAsync(new CategoryViewModel { Name = "Vestuário", Description = "Roupas e vestuário em geral" });
+    var cat5 = await categoryRepository.CreateAsync(new CategoryViewModel { Name = "Escritório", Description = "Material para escritório e papelaria" });
+    var cat6 = await categoryRepository.CreateAsync(new CategoryViewModel { Name = "Bebidas", Description = "Bebidas alcoólicas e não alcoólicas" });
 
     //Products
-    var prod1 = await productRepository.CreateAsync(new Product
+    var prod1 = await productRepository.CreateAsync(new ProductViewModel
     {
         Name = "Arroz Tipo 1",
         Description = "Pacote de 5kg de arroz branco",
         Price = 25.90m,
         QuantityStock = 100,
         UnityOfMeasurement = "UN",
-        CategoryId = cat1.Id
+        CategoryId = cat1.Data.Id
     });
 
-    var prod2 = await productRepository.CreateAsync(new Product
+    var prod2 = await productRepository.CreateAsync(new ProductViewModel
     {
         Name = "Detergente Neutro",
         Description = "Frasco de 500ml",
         Price = 2.50m,
         QuantityStock = 200,
         UnityOfMeasurement = "UN",
-        CategoryId = cat2.Id
+        CategoryId = cat2.Data.Id
     });
 
-    var prod3 = await productRepository.CreateAsync(new Product
+    var prod3 = await productRepository.CreateAsync(new ProductViewModel
     {
         Name = "Fone de Ouvido Bluetooth",
         Description = "Com cancelamento de ruído",
         Price = 150.00m,
         QuantityStock = 50,
         UnityOfMeasurement = "UN",
-        CategoryId = cat3.Id
+        CategoryId = cat3.Data.Id
     });
 
-    var prod4 = await productRepository.CreateAsync(new Product
+    var prod4 = await productRepository.CreateAsync(new ProductViewModel
     {
         Name = "Camiseta Básica",
         Description = "Camiseta de algodão - tamanho M",
         Price = 39.90m,
         QuantityStock = 75,
         UnityOfMeasurement = "UN",
-        CategoryId = cat4.Id
+        CategoryId = cat4.Data.Id
     });
 
-    var prod5 = await productRepository.CreateAsync(new Product
+    var prod5 = await productRepository.CreateAsync(new ProductViewModel
     {
         Name = "Caderno Universitário",
         Description = "96 folhas capa dura",
         Price = 15.00m,
         QuantityStock = 120,
         UnityOfMeasurement = "UN",
-        CategoryId = cat5.Id
+        CategoryId = cat5.Data.Id
     });
 
-    var prod6 = await productRepository.CreateAsync(new Product
+    var prod6 = await productRepository.CreateAsync(new ProductViewModel
     {
         Name = "Suco de Laranja Natural",
         Description = "Garrafa 1L - sem conservantes",
         Price = 7.90m,
         QuantityStock = 60,
         UnityOfMeasurement = "UN",
-        CategoryId = cat6.Id
+        CategoryId = cat6.Data.Id
     });
 
     //Clients
-    var client1 = await clientRepository.CreateAsync(new Client
+    var client1 = await clientRepository.CreateAsync(new ClientViewModel
     {
         Name = "Ana Souza",
         Email = "ana.souza@email.com",
@@ -149,7 +149,7 @@ if (builder.Environment.IsDevelopment())
         BirthDate = new DateTime(1990, 5, 12)
     });
 
-    var client2 = await clientRepository.CreateAsync(new Client
+    var client2 = await clientRepository.CreateAsync(new ClientViewModel
     {
         Name = "Carlos Silva",
         Email = "carlos.silva@email.com",
@@ -160,7 +160,7 @@ if (builder.Environment.IsDevelopment())
         BirthDate = new DateTime(1985, 3, 22)
     });
 
-    var client3 = await clientRepository.CreateAsync(new Client
+    var client3 = await clientRepository.CreateAsync(new ClientViewModel
     {
         Name = "Juliana Ribeiro",
         Email = "juliana.ribeiro@email.com",
@@ -171,7 +171,7 @@ if (builder.Environment.IsDevelopment())
         BirthDate = new DateTime(1992, 8, 9)
     });
 
-    var client4 = await clientRepository.CreateAsync(new Client
+    var client4 = await clientRepository.CreateAsync(new ClientViewModel
     {
         Name = "Fernando Lima",
         Email = "fernando.lima@email.com",
@@ -182,7 +182,7 @@ if (builder.Environment.IsDevelopment())
         BirthDate = new DateTime(1978, 12, 5)
     });
 
-    var client5 = await clientRepository.CreateAsync(new Client
+    var client5 = await clientRepository.CreateAsync(new ClientViewModel
     {
         Name = "Beatriz Martins",
         Email = "beatriz.martins@email.com",
@@ -193,7 +193,7 @@ if (builder.Environment.IsDevelopment())
         BirthDate = new DateTime(2000, 1, 18)
     });
 
-    var client6 = await clientRepository.CreateAsync(new Client
+    var client6 = await clientRepository.CreateAsync(new ClientViewModel
     {
         Name = "Rafael Costa",
         Email = "rafael.costa@email.com",
@@ -205,68 +205,68 @@ if (builder.Environment.IsDevelopment())
     });
 
     //Sales
-    var sale1 = await saleRepository.CreateAsync(new Sale
+    var sale1 = await saleRepository.CreateAsync(new SaleViewModel
     {
-        CustomerId = client1.Id,
+        CustomerId = client1.Data.Id,
         PaymentMethod = EPaymentMethod.CreditCard,
         Status = ESaleStatus.Completed,
         Items =
         [
-            new SaleItem
+            new SaleItemViewModel
         {
-            ProductId = prod1.Id,
+            ProductId = prod1.Data.Id,
             Quantity = 2,
-            UnityPrice = prod1.Price
+            UnityPrice = prod1.Data.Price
         },
-        new SaleItem
+        new SaleItemViewModel
         {
-            ProductId = prod2.Id,
+            ProductId = prod2.Data.Id,
             Quantity = 1,
-            UnityPrice = prod2.Price
+            UnityPrice = prod2.Data.Price
         }
         ]
     });
 
-    var sale2 = await saleRepository.CreateAsync(new Sale
+    var sale2 = await saleRepository.CreateAsync(new SaleViewModel
     {
-        CustomerId = client2.Id,
+        CustomerId = client2.Data.Id,
         PaymentMethod = EPaymentMethod.Pix,
         Status = ESaleStatus.Pending,
         Items =
         [
-            new SaleItem
+            new SaleItemViewModel
         {
-            ProductId = prod3.Id,
+            ProductId = prod3.Data.Id,
             Quantity = 3,
-            UnityPrice = prod3.Price
+            UnityPrice = prod3.Data.Price
         },
-        new SaleItem
+        new SaleItemViewModel
         {
-            ProductId = prod5.Id,
+            ProductId = prod5.Data.Id,
             Quantity = 2,
-            UnityPrice = prod5.Price
+            UnityPrice = prod5.Data.Price
         }
         ]
     });
 
-    var sale3 = await saleRepository.CreateAsync(new Sale
+    var sale3 = await saleRepository.CreateAsync(new SaleViewModel
     {
-        CustomerId = client3.Id,
+        CustomerId = client3.Data.Id,
         PaymentMethod = EPaymentMethod.Cash,
         Status = ESaleStatus.Cancelled,
         Items =
         [
-            new SaleItem
+            new SaleItemViewModel
         {
-            ProductId = prod4.Id,
+            ProductId = prod4.Data.Id,
             Quantity = 1,
-            UnityPrice = prod4.Price
+            UnityPrice = prod4.Data.Price
         },
-        new SaleItem
+        new SaleItemViewModel
         {
-            ProductId = prod6.Id,
+            ProductId = prod6.Data.Id,
             Quantity = 5,
-            UnityPrice = prod6.Price
+            UnityPrice = prod6.Data.Price
         }
         ]
     });

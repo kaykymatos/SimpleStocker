@@ -9,5 +9,6 @@ namespace SimpleStocker.Api.Services
         Task<ApiResponse<T>> DeleteAsync(long id);
         Task<ApiResponse<List<T>>> GetAllAsync();
         Task<ApiResponse<T>> GetOneAsync(long id);
+        Task ClearDb();
     }
 }

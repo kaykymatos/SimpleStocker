@@ -27,7 +27,7 @@ namespace SimpleStocker.Api.Validations
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("A unidade de medida é obrigatória.")
                 .MaximumLength(20).WithMessage("A unidade de medida deve ter no máximo 20 caracteres.")
-                .MinimumLength(3).WithMessage("A unidade de medida deve ter no mínimo 3 caracteres.");
+                .MinimumLength(2).WithMessage("A unidade de medida deve ter no mínimo 2 caracteres.");
 
             RuleFor(x => x.Price)
                 .GreaterThan(0).WithMessage("O preço deve ser maior que zero.");

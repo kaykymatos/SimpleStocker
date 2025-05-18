@@ -19,10 +19,11 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "INSERT INTO Sales (CustomerId,  Discount, PaymentMethod, Status)" +
-                    " VALUES (@CustomerId,  @Discount, @PaymentMethod, @Status) RETURNING Id;";
+                var sql = "INSERT INTO Sales (CustomerId,TotalAmount,  Discount, PaymentMethod, Status)" +
+                    " VALUES (@CustomerId,@TotalAmount,  @Discount, @PaymentMethod, @Status) RETURNING Id;";
                 DynamicParameters parameters = new();
                 parameters.Add("@CustomerId", entity.CustomerId);
+                parameters.Add("@TotalAmount", entity.TotalAmount);
                 parameters.Add("@Discount", entity.Discount);
                 parameters.Add("@PaymentMethod", entity.PaymentMethod);
                 parameters.Add("@Status", entity.Status);
@@ -112,6 +113,7 @@ namespace SimpleStocker.Api.Repositories
                 var sql = "UPDATE Sales SET " +
                     "CustomerId = @CustomerId, " +
                     "Discount = @Discount, " +
+                    "TotalAmount = @TotalAmount, " +
                     "PaymentMethod = @PaymentMethod , " +
                     "UpdatedDate = @UpdatedDate , " +
                     "Status = @Status " +
@@ -121,6 +123,7 @@ namespace SimpleStocker.Api.Repositories
                 parameters.Add("@Id", entity.Id);
                 parameters.Add("@CustomerId", entity.CustomerId);
                 parameters.Add("@Discount", entity.Discount);
+                parameters.Add("@TotalAmount", entity.TotalAmount);
                 parameters.Add("@PaymentMethod", entity.PaymentMethod);
                 parameters.Add("@Status", entity.Status);
                 parameters.Add("@UpdatedDate", DateTime.Now);

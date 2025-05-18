@@ -17,6 +17,10 @@ namespace SimpleStocker.Api.Services
             _salesRepository = salesRepository;
         }
 
+        public async Task ClearDb()
+        {
+            await _repository.ClearDb();
+        }
         public async Task<ApiResponse<ClientViewModel>> CreateAsync(ClientViewModel entity)
         {
             var validation = new ClientValidator().Validate(entity);

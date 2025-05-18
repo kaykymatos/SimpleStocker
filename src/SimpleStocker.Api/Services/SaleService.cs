@@ -11,15 +11,18 @@ namespace SimpleStocker.Api.Services
     public class SaleService : ISaleService
     {
         private readonly ISaleRepository _repository;
-        private readonly ISaleItemRepository _saleRepository;
-        public SaleService(ISaleRepository repository, ISaleItemRepository saleRepository)
+        public SaleService(ISaleRepository repository)
         {
             _repository = repository;
-            _saleRepository = saleRepository;
         }
 
+        public async Task ClearDb()
+        {
+            await _repository.ClearDb();
+        }
         public async Task<ApiResponse<SaleViewModel>> CreateAsync(SaleViewModel entity)
         {
+            entity.TotalAmount = entity.Items.Sum(x => x.SubTotal) - entity.Discount;
             // Validação
             var validation = new SaleValidator().Validate(entity);
             if (!validation.IsValid)
@@ -32,6 +35,7 @@ namespace SimpleStocker.Api.Services
                 sale.Items = entity.Items
                     .Select(item => Mapper.Map<SaleItem>(item))
                     .ToList();
+
 
                 // Persiste a venda
                 var result = await _repository.CreateAsync(sale);
@@ -101,13 +105,18 @@ namespace SimpleStocker.Api.Services
         {
             try
             {
-                var entity = await _repository.GetOneAsync(id);
-                if (entity == null)
+                var foundEntity = await _repository.GetOneAsync(id);
+                if (foundEntity == null)
                     return new ApiResponse<SaleViewModel>("Id", "Id não encontrado!");
 
-                var mapperModel = Mapper.Map<SaleViewModel>(entity);
+                var mapperModel = Mapper.Map<SaleViewModel>(foundEntity);
+
+                mapperModel.Items = [];
+                foreach (var item2 in foundEntity.Items)
+                    mapperModel.Items.Add(Mapper.Map<SaleItemViewModel>(item2));
 
                 return new ApiResponse<SaleViewModel>(true, "", [], mapperModel, 200);
+
             }
             catch (Exception ex)
             {
@@ -129,7 +138,7 @@ namespace SimpleStocker.Api.Services
             try
             {
                 var mapperModel = Mapper.Map<Sale>(entity);
-              
+
                 var res = await _repository.UpdateAsync(mapperModel);
                 if (res == null)
                     return new ApiResponse<SaleViewModel>("Server", "Erro ao tentar criar registro!");

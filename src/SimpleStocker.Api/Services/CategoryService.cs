@@ -18,6 +18,11 @@ namespace SimpleStocker.Api.Services
             _productRepository = productRepository;
         }
 
+        public async Task ClearDb()
+        {
+            await _repository.ClearDb();
+        }
+
         public async Task<ApiResponse<CategoryViewModel>> CreateAsync(CategoryViewModel entity)
         {
             var validation = new CategoryValidator().Validate(entity);
@@ -105,7 +110,7 @@ namespace SimpleStocker.Api.Services
             if (originalEntity == null)
                 return new ApiResponse<CategoryViewModel>("Id", "Item não encontrado");
 
-            var validation = new CategoryValidator(true).Validate(entity);
+            var validation = new CategoryValidator().Validate(entity);
            
             if (!validation.IsValid)
                 return new ApiResponse<CategoryViewModel>(ErrorFormater.FulentValidationResultToDictionaryList(validation));

@@ -51,6 +51,7 @@ CREATE TABLE Sales (
     Id BIGSERIAL PRIMARY KEY,                                -- Identificador único da venda
     CustomerId BIGINT NOT NULL,                              -- FK para o cliente que realizou a compra
     Discount NUMERIC(10, 2) NOT NULL DEFAULT 0,              -- Desconto aplicado à venda
+    TotalAmount NUMERIC(10, 2) NOT NULL DEFAULT 0,              -- Desconto aplicado à venda
     PaymentMethod SMALLINT NOT NULL,                         -- Método de pagamento (mapeado via enum EPaymentMethod)
     Status SMALLINT NOT NULL,                                -- Status da venda (mapeado via enum ESaleStatus)
     CreatedDate TIMESTAMP NOT NULL DEFAULT NOW(),            -- Data de criação da venda
