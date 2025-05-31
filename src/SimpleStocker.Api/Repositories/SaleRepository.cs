@@ -138,7 +138,7 @@ namespace SimpleStocker.Api.Repositories
         }
         public async Task ClearDb()
         {
-            var sql = "DELETE FROM Sales";
+            var sql = "TRUNCATE TABLE Sales RESTART IDENTITY CASCADE";
             await _saleItemRepository.ClearDb();
             using var _db = _context.CreateConnection();
             await _db.ExecuteAsync(sql);

@@ -59,7 +59,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Products ORDER BY ID;";
+                var sql = "SELECT prod.*, cat.Name as CategoryName FROM Products as prod left join Categories cat on prod.CategoryId = cat.Id ORDER BY prod.ID;";
                 using var _db = _context.CreateConnection();
                 var products = await _db.QueryAsync<Product>(sql);
                 return [.. products];
@@ -74,7 +74,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Products where Id = @Id";
+                var sql = "SELECT prod.*, cat.Name as CategoryName FROM Products as prod left join Categories cat on prod.CategoryId = cat.Id where prod.Id = @Id";
                 DynamicParameters parameters = new();
                 parameters.Add("@Id", id);
                 using var _db = _context.CreateConnection();
@@ -120,7 +120,7 @@ namespace SimpleStocker.Api.Repositories
         }
         public async Task ClearDb()
         {
-            var sql = "delete from Products";
+            var sql = "TRUNCATE TABLE Products RESTART IDENTITY CASCADE";
 
             using var _db = _context.CreateConnection();
             var res = await _db.ExecuteAsync(sql);
@@ -130,7 +130,7 @@ namespace SimpleStocker.Api.Repositories
         {
             try
             {
-                var sql = "SELECT * FROM Products where CategoryId = @CategoryId ORDER BY ID;";
+                var sql = "SELECT prod.*, cat.Name as CategoryName FROM Products as prod left join Categories cat on prod.CategoryId = cat.Id  where CategoryId = @CategoryId ORDER BY ID;";
                 using var _db = _context.CreateConnection();
                 DynamicParameters parameters = new();
                 parameters.Add("@CategoryId", categoryId);

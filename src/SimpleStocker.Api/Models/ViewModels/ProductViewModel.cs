@@ -8,6 +8,7 @@
         public string UnityOfMeasurement { get; set; } = string.Empty;
         public decimal Price { get; set; } = 0;
         public long CategoryId { get; set; } = 0;
+        public string CategoryName { get; set; } = string.Empty;
         public ProductViewModel()
         {
 

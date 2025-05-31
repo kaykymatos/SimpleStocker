@@ -73,7 +73,9 @@ namespace SimpleStocker.Api.Services
                 List<ProductViewModel> lista = [];
                 foreach (var item in foundEntity)
                 {
-                    lista.Add(Mapper.Map<ProductViewModel>(item));
+                    var mappedModel = Mapper.Map<ProductViewModel>(item);
+                    mappedModel.CategoryName = item.CategoryName;
+                    lista.Add(mappedModel);
                 }
                 return new ApiResponse<List<ProductViewModel>>(true, "", [], lista, 200);
 
