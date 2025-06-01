@@ -23,6 +23,7 @@ import { CreateCategoryComponent } from './modules/category/pages/create-categor
 import { UpdateCategoryComponent } from './modules/category/pages/update-category/update-category.component';
 import { DetailsCategoryComponent } from './modules/category/pages/details-category/details-category.component';
 import { DeleteCategoryComponent } from './modules/category/pages/delete-category/delete-category.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DeleteCategoryComponent } from './modules/category/pages/delete-categor
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
