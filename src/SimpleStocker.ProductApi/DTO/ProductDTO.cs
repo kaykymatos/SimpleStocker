@@ -1,6 +1,4 @@
-﻿using SimpleStocker.ProductApi.Models;
-
-namespace SimpleStocker.ProductApi.DTO
+﻿namespace SimpleStocker.ProductApi.DTO
 {
     public class ProductDTO
     {

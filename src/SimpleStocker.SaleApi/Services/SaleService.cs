@@ -1,33 +1,32 @@
 ﻿using Mapster;
-using SimpleStocker.ProductApi.DTO;
-using SimpleStocker.ProductApi.Models;
-using SimpleStocker.ProductApi.Repositories;
-using SimpleStocker.ProductApi.Util;
-using SimpleStocker.ProductApi.Validations;
+using SimpleStocker.Api.Models.Entities;
+using SimpleStocker.SaleApi.DTO;
+using SimpleStocker.SaleApi.Repositories;
+using SimpleStocker.SaleApi.Util;
+using SimpleStocker.SaleApi.Validations;
 
-namespace SimpleStocker.ProductApi.Services
+namespace SimpleStocker.SaleApi.Services
 {
-    public class CategoryService : ICategoryService
+    public class SaleService : ISaleService
     {
-        private readonly ICategoryRepository _repository;
-
-        public CategoryService(ICategoryRepository repository)
+        private readonly ISaleRepository _repository;
+        public SaleService(ISaleRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<ApiResponse<CategoryDTO>> CreateAsync(CategoryDTO model)
+        public async Task<ApiResponse<SaleDTO>> CreateAsync(SaleDTO model)
         {
-            var validation = new CategoryValidator().Validate(model);
+            var validation = new SaleValidator().Validate(model);
 
             if (!validation.IsValid)
-                return new ApiResponse<CategoryDTO>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
+                return new ApiResponse<SaleDTO>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
             try
             {
-                var res = await _repository.CreateAsync(model.Adapt<CategoryModel>());
+                var res = await _repository.CreateAsync(model.Adapt<SaleModel>());
                 if (res == null)
-                    return new ApiResponse<CategoryDTO>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<CategoryDTO>(true, "", [], res.Adapt<CategoryDTO>(), 200);
+                    return new ApiResponse<SaleDTO>("Server", "Erro ao tentar criar registro!");
+                return new ApiResponse<SaleDTO>(true, "", [], res.Adapt<SaleDTO>(), 200);
             }
             catch (Exception ex)
             {
@@ -56,13 +55,13 @@ namespace SimpleStocker.ProductApi.Services
             }
         }
 
-        public async Task<ApiResponse<IList<CategoryDTO>>> GetAllAsync()
+        public async Task<ApiResponse<IList<SaleDTO>>> GetAllAsync()
         {
             try
             {
                 var foundEntity = await _repository.GetAllAsync();
 
-                return new ApiResponse<IList<CategoryDTO>>(true, "", [], foundEntity.Adapt<List<CategoryDTO>>(), 200);
+                return new ApiResponse<IList<SaleDTO>>(true, "", [], foundEntity.Adapt<List<SaleDTO>>(), 200);
 
             }
             catch (Exception ex)
@@ -71,15 +70,15 @@ namespace SimpleStocker.ProductApi.Services
             }
         }
 
-        public async Task<ApiResponse<CategoryDTO>> GetOneAsync(long id)
+        public async Task<ApiResponse<SaleDTO>> GetOneAsync(long id)
         {
             try
             {
                 var entity = await _repository.GetOneAsync(id);
                 if (entity == null)
-                    return new ApiResponse<CategoryDTO>("Id", "Id não encontrado!");
+                    return new ApiResponse<SaleDTO>("Id", "Id não encontrado!");
 
-                return new ApiResponse<CategoryDTO>(true, "", [], entity.Adapt<CategoryDTO>(), 200);
+                return new ApiResponse<SaleDTO>(true, "", [], entity.Adapt<SaleDTO>(), 200);
             }
             catch (Exception ex)
             {
@@ -87,24 +86,25 @@ namespace SimpleStocker.ProductApi.Services
             }
         }
 
-        public async Task<ApiResponse<CategoryDTO>> UpdateAsync(long id, CategoryDTO model)
+        public async Task<ApiResponse<SaleDTO>> UpdateAsync(long id, SaleDTO model)
         {
             var originalmodel = await _repository.GetOneAsync(id);
             if (originalmodel == null)
-                return new ApiResponse<CategoryDTO>("Id", "Item não encontrado");
+                return new ApiResponse<SaleDTO>("Id", "Item não encontrado");
 
-            var validation = new CategoryValidator().Validate(model);
+            var validation = new SaleValidator(true).Validate(model);
 
             if (!validation.IsValid)
-                return new ApiResponse<CategoryDTO>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
+                return new ApiResponse<SaleDTO>(ErrorFormater.FulentValidationResultToDictionaryList(validation));
 
             try
             {
+                model.Items = originalmodel.Items.Adapt<List<SaleItemDTO>>();
                 model.Adapt(originalmodel);
                 var res = await _repository.UpdateAsync(id, originalmodel);
                 if (res == null)
-                    return new ApiResponse<CategoryDTO>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<CategoryDTO>(true, "", [], res.Adapt<CategoryDTO>(), 200);
+                    return new ApiResponse<SaleDTO>("Server", "Erro ao tentar criar registro!");
+                return new ApiResponse<SaleDTO>(true, "", [], res.Adapt<SaleDTO>(), 200);
             }
             catch (Exception ex)
             {

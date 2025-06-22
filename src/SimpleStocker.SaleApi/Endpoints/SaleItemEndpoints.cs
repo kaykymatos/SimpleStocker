@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using SimpleStocker.ProductApi.DTO;
-using SimpleStocker.ProductApi.Services;
+using SimpleStocker.SaleApi.DTO;
+using SimpleStocker.SaleApi.Services;
 
-namespace SimpleStocker.ProductApi.Endpoints
+namespace SimpleStocker.SaleApi.Endpoints
 {
-    public static class Categoryndpoints
+    public static class SaleItemndpoints
     {
-        public static WebApplication MapCategoryEndpoints(this WebApplication app)
+        public static WebApplication MapSaleItemEndpoints(this WebApplication app)
         {
-            app.MapPost("categories", async ([FromBody] CategoryDTO model, [FromServices] ICategoryService service) =>
+            app.MapPost("saleitems", async ([FromBody] SaleItemDTO model, [FromServices] ISaleItemService service) =>
             {
                 var response = await service.CreateAsync(model);
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
@@ -21,7 +21,7 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return x;
             });
 
-            app.MapPut("categories", async ([FromQuery] long id, [FromBody] CategoryDTO model, [FromServices] ICategoryService service) =>
+            app.MapPut("saleitems", async ([FromQuery] long id, [FromBody] SaleItemDTO model, [FromServices] ISaleItemService service) =>
             {
                 model.Id = id;
                 var response = await service.UpdateAsync(id, model);
@@ -33,14 +33,14 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return x;
             });
 
-            app.MapGet("categories/{id:long}", async ([FromRoute] long id, [FromServices] ICategoryService service) =>
+            app.MapGet("saleitems/{id:long}", async ([FromRoute] long id, [FromServices] ISaleItemService service) =>
             {
                 var response = await service.GetOneAsync(id);
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Obtem um Category pelo ID";
-                x.Description = "Retorna os dados de um Category específico a partir do ID informado na URL.";
+                x.Summary = "Obtem SaleItem pelo ID";
+                x.Description = "Retorna os dados de SaleItem específico a partir do ID informado na URL.";
                 x.Parameters = new List<OpenApiParameter>
                             {
                                 new OpenApiParameter
@@ -48,14 +48,14 @@ namespace SimpleStocker.ProductApi.Endpoints
                                     Name = "id",
                                     In = ParameterLocation.Path,
                                     Required = true,
-                                    Description = "ID do Category",
+                                    Description = "ID do SaleItem",
                                     Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
                                 }
                             };
                 return x;
             });
 
-            app.MapGet("categories", async ([FromServices] ICategoryService service) =>
+            app.MapGet("saleitems", async ([FromServices] ISaleItemService service) =>
             {
                 var response = await service.GetAllAsync();
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
@@ -66,14 +66,14 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return x;
             });
 
-            app.MapDelete("categories/{id:long}", async ([FromRoute] long id, [FromServices] ICategoryService service) =>
+            app.MapDelete("saleitems/{id:long}", async ([FromRoute] long id, [FromServices] ISaleItemService service) =>
             {
                 var response = await service.DeleteAsync(id);
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Deleta um Category pelo ID";
-                x.Description = "Deleta um Category a partir do ID informado na URL.";
+                x.Summary = "Deleta SaleItem pelo ID";
+                x.Description = "Deleta SaleItem a partir do ID informado na URL.";
                 x.Parameters = new List<OpenApiParameter>
                         {
                             new OpenApiParameter
@@ -81,7 +81,7 @@ namespace SimpleStocker.ProductApi.Endpoints
                                 Name = "id",
                                 In = ParameterLocation.Path,
                                 Required = true,
-                                Description = "ID do Category",
+                                Description = "ID do SaleItem",
                                 Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
                             }
                         };

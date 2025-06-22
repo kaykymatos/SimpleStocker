@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleStocker.ProductApi.Context;
 using SimpleStocker.ProductApi.Models;
-using SimpleStocker.ProductApi.Repositories;
 
-namespace SimpleStocker.CategoryApi.Repositories
+namespace SimpleStocker.ProductApi.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SimpleStocker.ProductApi.Models
+﻿namespace SimpleStocker.ProductApi.Models
 {
     public class CategoryModel
     {

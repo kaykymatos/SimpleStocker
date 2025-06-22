@@ -1,11 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using SimpleStocker.CategoryApi.Endpoints;
-using SimpleStocker.CategoryApi.Repositories;
-using SimpleStocker.CategoryApi.Services;
 using SimpleStocker.ProductApi.Context;
-using SimpleStocker.ProductApi.DTO;
 using SimpleStocker.ProductApi.Endpoints;
 using SimpleStocker.ProductApi.MapsterConfig;
 using SimpleStocker.ProductApi.Middlewares;
@@ -48,7 +42,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapCategoryndpoints()
+app.MapCategoryEndpoints()
    .MapProductEndpoints();
 
 app.Run();
