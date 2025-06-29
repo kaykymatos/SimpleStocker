@@ -1,6 +1,6 @@
 ﻿using Mapster;
-using SimpleStocker.Api.Models.Entities;
 using SimpleStocker.SaleApi.DTO;
+using SimpleStocker.SaleApi.Models;
 using SimpleStocker.SaleApi.Repositories;
 using SimpleStocker.SaleApi.Util;
 using SimpleStocker.SaleApi.Validations;

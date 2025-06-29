@@ -1,8 +1,0 @@
-﻿using SimpleStocker.Api.Models.Entities;
-
-namespace SimpleStocker.Api.Repositories
-{
-    public interface ICategoryRepository : IBaseRepository<Category>
-    {
-    }
-}

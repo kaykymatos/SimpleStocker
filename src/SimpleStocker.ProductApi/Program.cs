@@ -12,6 +12,16 @@ builder.Services.AddDbContext<ApiContext>(options =>
                    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnextion")));
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 builder.Services.AddOpenApi();
 builder.Services.RegisterMapster();
 
@@ -44,5 +54,5 @@ app.MapControllers();
 
 app.MapCategoryEndpoints()
    .MapProductEndpoints();
-
+app.UseCors("AllowAll");
 app.Run();

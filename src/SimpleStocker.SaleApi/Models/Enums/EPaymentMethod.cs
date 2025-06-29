@@ -1,4 +1,4 @@
-﻿namespace SimpleStocker.SaleApi.Models.Entities.Enums
+﻿namespace SimpleStocker.SaleApi.Models.Enums
 {
     public enum EPaymentMethod
     {

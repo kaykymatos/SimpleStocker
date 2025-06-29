@@ -1,7 +1,6 @@
-﻿using SimpleStocker.SaleApi.Models.Entities;
-using SimpleStocker.SaleApi.Models.Entities.Enums;
+﻿using SimpleStocker.SaleApi.Models.Enums;
 
-namespace SimpleStocker.Api.Models.Entities
+namespace SimpleStocker.SaleApi.Models
 {
     public class SaleModel
     {

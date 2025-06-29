@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleStocker.SaleApi.Context;
-using SimpleStocker.SaleApi.Models.Entities;
+using SimpleStocker.SaleApi.Models;
 
 namespace SimpleStocker.SaleApi.Repositories
 {

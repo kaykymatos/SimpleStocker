@@ -101,7 +101,7 @@ namespace SimpleStocker.ProductApi.Services
             try
             {
                 model.Adapt(originalmodel);
-                var res = await _repository.UpdateAsync(id, originalmodel);
+                var res = await _repository.UpdateAsync(originalmodel);
                 if (res == null)
                     return new ApiResponse<CategoryDTO>("Server", "Erro ao tentar criar registro!");
                 return new ApiResponse<CategoryDTO>(true, "", [], res.Adapt<CategoryDTO>(), 200);

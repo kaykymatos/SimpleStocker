@@ -1,17 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using SimpleStocker.SaleApi.DTO;
+using SimpleStocker.SaleApi.Producers;
 using SimpleStocker.SaleApi.Services;
 
 namespace SimpleStocker.SaleApi.Endpoints
 {
     public static class SaleEndpoints
     {
+        private const string EMAIL_TOPIC = "email-sender";
+        private const string STOCK_TOPIC = "sale-topic";
         public static WebApplication MapSaleEndpoints(this WebApplication app)
         {
-            app.MapPost("sales", async ([FromBody] SaleDTO model, [FromServices] ISaleService service) =>
+            app.MapPost("sales", async ([FromBody] SaleDTO model, [FromServices] ISaleService service, CancellationToken token) =>
             {
                 var response = await service.CreateAsync(model);
+
+                await Task.WhenAll(
+                    BasicProducer.ProduceMessage(EMAIL_TOPIC, token, response.Data),
+                    BasicProducer.ProduceMessage(STOCK_TOPIC, token, response.Data)
+                    );
+
+
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
 
             }).WithOpenApi(x =>

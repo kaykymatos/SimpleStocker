@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimpleStocker.Api.Models.Entities;
 using SimpleStocker.SaleApi.Context;
+using SimpleStocker.SaleApi.Models;
 
 namespace SimpleStocker.SaleApi.Repositories
 {
@@ -14,12 +14,21 @@ namespace SimpleStocker.SaleApi.Repositories
 
         public async Task<SaleModel> CreateAsync(SaleModel model)
         {
-            _context.Sales.Add(model);
-            model.Items.ForEach(item => item.SaleId = model.Id);
+            try
+            {
+                _context.Sales.Add(model);
+                await _context.SaveChangesAsync();
 
-            _context.SaleItems.AddRange(model.Items);
-            await _context.SaveChangesAsync();
-            return model;
+                model.Items.ForEach(item => item.SaleId = model.Id);
+
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<bool> DeleteAsync(long id)

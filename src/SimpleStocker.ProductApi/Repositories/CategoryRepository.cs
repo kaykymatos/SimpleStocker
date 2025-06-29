@@ -46,11 +46,18 @@ namespace SimpleStocker.ProductApi.Repositories
             return modelsList;
         }
 
-        public async Task<CategoryModel> UpdateAsync(long id, CategoryModel model)
+        public async Task<CategoryModel> UpdateAsync(CategoryModel model)
         {
             _context.Categories.Update(model);
             await _context.SaveChangesAsync();
             return model;
+        }
+
+        public async Task<List<CategoryModel>> MultipleUpdateAsync(List<CategoryModel> models)
+        {
+            _context.Categories.UpdateRange(models);
+            await _context.SaveChangesAsync();
+            return models;
         }
     }
 }

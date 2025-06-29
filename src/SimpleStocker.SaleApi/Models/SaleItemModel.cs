@@ -1,6 +1,4 @@
-﻿using SimpleStocker.Api.Models.Entities;
-
-namespace SimpleStocker.SaleApi.Models.Entities
+﻿namespace SimpleStocker.SaleApi.Models
 {
     public class SaleItemModel
     {

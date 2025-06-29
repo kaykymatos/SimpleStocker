@@ -1,4 +1,4 @@
-﻿using SimpleStocker.SaleApi.Models.Entities.Enums;
+﻿using SimpleStocker.SaleApi.Models.Enums;
 
 namespace SimpleStocker.SaleApi.DTO
 {
