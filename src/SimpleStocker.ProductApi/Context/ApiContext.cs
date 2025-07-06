@@ -63,9 +63,6 @@ namespace SimpleStocker.ProductApi.Context
                     .IsRequired()
                     .HasMaxLength(300);
 
-                entity.Property(e => e.QuantityStock)
-                    .IsRequired();
-
                 entity.Property(e => e.UnityOfMeasurement)
                     .HasMaxLength(20);
 

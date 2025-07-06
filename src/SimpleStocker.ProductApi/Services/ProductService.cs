@@ -26,7 +26,9 @@ namespace SimpleStocker.ProductApi.Services
                 var res = await _repository.CreateAsync(model.Adapt<ProductModel>());
                 if (res == null)
                     return new ApiResponse<ProductDTO>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<ProductDTO>(true, "", [], res.Adapt<ProductDTO>(), 200);
+                var responseWithQuantity = res.Adapt<ProductDTO>();
+                responseWithQuantity.QuantityStock = model.QuantityStock;
+                return new ApiResponse<ProductDTO>(true, "", [], responseWithQuantity, 200);
             }
             catch (Exception ex)
             {

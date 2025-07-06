@@ -1,6 +1,6 @@
-﻿using FizzWare.NBuilder;
+using FizzWare.NBuilder;
 
-namespace SimpleStocker.Tests.Builder
+namespace SimpleStocker.CategoryApi.Tests.Builder
 {
     public abstract class BuilderBase<T>
     {
@@ -28,4 +28,3 @@ namespace SimpleStocker.Tests.Builder
         }
     }
 }
-

@@ -19,10 +19,6 @@ namespace SimpleStocker.ProductApi.Validations
                 .MaximumLength(255).WithMessage("A descrição deve ter no máximo 255 caracteres.")
                 .MinimumLength(3).WithMessage("A descrição deve ter no mínimo 3 caracteres.");
 
-            if (!update)
-                RuleFor(x => x.QuantityStock)
-                    .GreaterThan(0).WithMessage("A quantidade em estoque não pode ser negativa.");
-
             RuleFor(x => x.UnityOfMeasurement)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("A unidade de medida é obrigatória.")

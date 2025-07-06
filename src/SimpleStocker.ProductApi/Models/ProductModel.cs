@@ -7,7 +7,6 @@
         public DateTime UpdatedDate { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public double QuantityStock { get; set; } = 0;
         public string UnityOfMeasurement { get; set; } = string.Empty;
         public decimal Price { get; set; } = 0;
         public CategoryModel Category { get; set; }
