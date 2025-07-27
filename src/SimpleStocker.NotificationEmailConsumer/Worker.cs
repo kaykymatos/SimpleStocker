@@ -1,46 +1,53 @@
-using Confluent.Kafka;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace SimpleStocker.NotificationEmailConsumer
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private IConnection _connection;
+        private IModel _channel;
+        private const string ExchangeName = "DirectEmailSender";
+        private const string QueueName = "EmailQueue";
 
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
+            var factory = new ConnectionFactory
+            {
+                HostName = "localhost",
+                UserName = "guest",
+                Password = "guest"
+            };
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _channel.ExchangeDeclare(ExchangeName, ExchangeType.Direct);
+
+            _channel.QueueDeclare(queue: QueueName,
+                                 durable: false,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var config = new ConsumerConfig
+            stoppingToken.ThrowIfCancellationRequested();
+
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (chanel, evt) =>
             {
-                BootstrapServers = "localhost:9092",
-                GroupId = "email-group",
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                var content = Encoding.UTF8.GetString(evt.Body.ToArray());
+                _logger.LogInformation($"Received message: {content}");
+                //UpdatePaymentResultMessage message = JsonSerializer.Deserialize<UpdatePaymentResultMessage>(content);
+                //ProcessLogs(message).GetAwaiter().GetResult();
+                _channel.BasicAck(evt.DeliveryTag, false);
             };
-
-            using var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
-
-            consumer.Subscribe("email-sender");
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                try
-                {
-                    var createResult = consumer.Consume(TimeSpan.FromMilliseconds(500));
-                    if (createResult != null)
-                    {
-                        _logger.LogInformation($"Mensagem recebida do tópico: {createResult.Topic}");
-
-                        _logger.LogInformation($"Email enviado: {createResult.Message.Value}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Erro ao processar mensagem.");
-                }
-            }
+            _channel.BasicConsume(QueueName, false, consumer);
+            return Task.CompletedTask;
         }
     }
 }

@@ -17,10 +17,16 @@ namespace SimpleStocker.SaleApi.Repositories
             try
             {
                 _context.Sales.Add(model);
+                await _context.SaveChangesAsync(); // Isso gera o ID da venda
+
+                model.Items.ForEach(item =>
+                {
+                    item.Id = 0; // evita erro de IDENTITY
+                    item.SaleId = model.Id;
+                });
+
+                _context.SaleItems.AddRange(model.Items);
                 await _context.SaveChangesAsync();
-
-                model.Items.ForEach(item => item.SaleId = model.Id);
-
 
                 return model;
             }

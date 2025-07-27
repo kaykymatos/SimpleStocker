@@ -4,6 +4,7 @@ using SimpleStocker.SaleApi.Context;
 using SimpleStocker.SaleApi.Endpoints;
 using SimpleStocker.SaleApi.MapsterConfig;
 using SimpleStocker.SaleApi.Middlewares;
+using SimpleStocker.SaleApi.RabbitMQ.RabbitMQSender;
 using SimpleStocker.SaleApi.Repositories;
 using SimpleStocker.SaleApi.Services;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<ApiContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.RegisterMapster();
+builder.Services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 
 builder.Services.AddScoped<ISaleItemRepository, SaleItemRepository>();
 builder.Services.AddScoped<ISaleItemService, SaleItemService>();

@@ -19,10 +19,23 @@ namespace SimpleStocker.StockConsumer.Repositories
 
         public async Task UpdateProduct(ProductModelEvent product)
         {
-            var productFound = _context.Inventory.FirstOrDefault(x => x.ProductId == product.Id);
-            productFound.Quantity = product.QuantityStock;
-            _context.Inventory.Update(productFound);
-            await _context.SaveChangesAsync();
+            InventoryEventModel productFound = null;
+            int count = 0;
+            do
+            {
+                count++;
+                productFound = _context.Inventory.FirstOrDefault(x => x.ProductId == product.Id);
+                if (productFound != null)
+                {
+                    productFound.Quantity = product.QuantityStock;
+                    _context.Inventory.Update(productFound);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    await Task.Delay(1000);
+                }
+            } while (productFound == null && count < 5);
         }
 
         public async Task UpdateStock(List<SaleItemConsumerEventModel> items)

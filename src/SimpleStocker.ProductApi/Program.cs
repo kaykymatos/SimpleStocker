@@ -3,6 +3,7 @@ using SimpleStocker.ProductApi.Context;
 using SimpleStocker.ProductApi.Endpoints;
 using SimpleStocker.ProductApi.MapsterConfig;
 using SimpleStocker.ProductApi.Middlewares;
+using SimpleStocker.ProductApi.RabbitMQ.RabbitMQSender;
 using SimpleStocker.ProductApi.Repositories;
 using SimpleStocker.ProductApi.Services;
 
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<ApiContext>(options =>
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
+builder.Services.AddScoped<IRabbitMQMessageSender, RabbitMQMessageSender>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using SimpleStocker.ProductApi.DTO;
-using SimpleStocker.ProductApi.Producers;
+using SimpleStocker.ProductApi.RabbitMQ.RabbitMQModels;
+using SimpleStocker.ProductApi.RabbitMQ.RabbitMQSender;
 using SimpleStocker.ProductApi.Services;
 
 namespace SimpleStocker.ProductApi.Endpoints
@@ -10,11 +12,11 @@ namespace SimpleStocker.ProductApi.Endpoints
     {
         public static WebApplication MapProductEndpoints(this WebApplication app)
         {
-            app.MapPost("products", async ([FromBody] ProductDTO model, [FromServices] IProductService service, CancellationToken token) =>
+            app.MapPost("products", async ([FromBody] ProductDTO model, [FromServices] IProductService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
             {
                 var response = await service.CreateAsync(model);
 
-                await BasicProducer.ProduceMessage("create-product-topic", token, response.Data);
+                rabbitMQMessageSender.SendMessage(response.Data.Adapt<ProductRabbitMQModel>(), "CreateProductQueue");
 
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
 
@@ -25,11 +27,12 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return x;
             });
 
-            app.MapPut("products", async ([FromQuery] long id, [FromBody] ProductDTO model, [FromServices] IProductService service, CancellationToken token) =>
+            app.MapPut("products", async ([FromQuery] long id, [FromBody] ProductDTO model, [FromServices] IProductService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
             {
                 model.Id = id;
                 var response = await service.UpdateAsync(id, model);
-                await BasicProducer.ProduceMessage("update-product-topic", token, response.Data);
+                rabbitMQMessageSender.SendMessage(response.Data.Adapt<ProductRabbitMQModel>(), "UpdateProductQueue");
+
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {

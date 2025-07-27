@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SimpleStocker.MessageBus": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
