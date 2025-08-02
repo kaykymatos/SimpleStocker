@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.SaleApi.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.MessageBus", "src\SimpleStocker.MessageBus\SimpleStocker.MessageBus.csproj", "{6CF0537F-E34D-4852-8299-3762C4823DDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.ApiGateway", "src\SimpleStocker.ApiGateway\SimpleStocker.ApiGateway.csproj", "{FCB7FF2E-E5B0-45A8-B986-0D377378B15C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{6CF0537F-E34D-4852-8299-3762C4823DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CF0537F-E34D-4852-8299-3762C4823DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CF0537F-E34D-4852-8299-3762C4823DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB7FF2E-E5B0-45A8-B986-0D377378B15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB7FF2E-E5B0-45A8-B986-0D377378B15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB7FF2E-E5B0-45A8-B986-0D377378B15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB7FF2E-E5B0-45A8-B986-0D377378B15C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +118,7 @@ Global
 		{022D4D3A-0BFF-4D16-AEF6-6E14C29BF8CA} = {B986A62C-F693-4559-86F6-18D9B811405E}
 		{46C95B81-CF4A-403E-B533-3AC6E675BCCA} = {B986A62C-F693-4559-86F6-18D9B811405E}
 		{6CF0537F-E34D-4852-8299-3762C4823DDE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FCB7FF2E-E5B0-45A8-B986-0D377378B15C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DB131D7-7F42-483C-B014-DDA4B3B34DE9}

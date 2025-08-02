@@ -1,0 +1,6 @@
+@SimpleStocker.ApiGateway_HostAddress = http://localhost:5165
+
+GET {{SimpleStocker.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
