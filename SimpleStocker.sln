@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.ProductApi.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.SaleApi.Tests", "tests\SimpleStocker.SaleApi.Tests\SimpleStocker.SaleApi.Tests.csproj", "{BF4E699E-16D7-2FF3-0561-83F505D875C2}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "simplestocker.web", "src\SimpleStocker.Web\simplestocker.web.esproj", "{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,12 @@ Global
 		{BF4E699E-16D7-2FF3-0561-83F505D875C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF4E699E-16D7-2FF3-0561-83F505D875C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF4E699E-16D7-2FF3-0561-83F505D875C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +110,7 @@ Global
 		{17CE2928-DD59-3B5A-0AB2-C43294EA930A} = {3E0EEFC8-169D-4294-81F2-05CC9BCB446E}
 		{7451B1A7-16C0-1BB2-6DCC-80D9B3D53BC3} = {3E0EEFC8-169D-4294-81F2-05CC9BCB446E}
 		{BF4E699E-16D7-2FF3-0561-83F505D875C2} = {3E0EEFC8-169D-4294-81F2-05CC9BCB446E}
+		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DB131D7-7F42-483C-B014-DDA4B3B34DE9}
