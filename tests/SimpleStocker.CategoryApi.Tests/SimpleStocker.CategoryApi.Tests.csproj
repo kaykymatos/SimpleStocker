@@ -17,7 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\SimpleStocker.SaleApi\SimpleStocker.SaleApi.csproj" />
+	  <ProjectReference Include="..\..\src\SimpleStocker.ProductApi\SimpleStocker.ProductApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
