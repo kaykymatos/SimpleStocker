@@ -12,8 +12,22 @@ builder.Configuration
 
 builder.Services.AddOcelot(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("AllowAll");
+}
 await app.UseOcelot();
 
 app.Run();

@@ -24,6 +24,16 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapOpenApi();
+    app.UseCors("AllowAll");
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -48,7 +59,7 @@ app.MapGet("inventory/{id:long}", async ([FromRoute] long id, [FromServices] IIn
 }).WithOpenApi(x =>
 {
     x.Summary = "Obtem um Inventory pelo ID";
-    x.Description = "Retorna os dados de um Inventory específico a partir do ID informado na URL.";
+    x.Description = "Retorna os dados de um Inventory especï¿½fico a partir do ID informado na URL.";
     x.Parameters = new List<OpenApiParameter>
     {
         new OpenApiParameter

@@ -1,27 +1,27 @@
-import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { useCallback } from "react";
-import reactLogo from "../../assets/react.svg";
+import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+import { useCallback } from 'react'
+import reactLogo from '../../assets/react.svg'
 
 type LayoutProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export default function DefaultLayout({ children }: LayoutProps) {
-  const userName='User Name';
+  const userName = 'User Name'
   const handleSidebarToggle = useCallback(() => {
-    document.body.classList.toggle("sidebar-toggled");
-    const sidebar = document.getElementById("accordionSidebar");
+    document.body.classList.toggle('sidebar-toggled')
+    const sidebar = document.getElementById('accordionSidebar')
     if (sidebar) {
-      sidebar.classList.toggle("toggled");
-      if (sidebar.classList.contains("toggled")) {
-        const collapses = sidebar.querySelectorAll('.collapse.show');
+      sidebar.classList.toggle('toggled')
+      if (sidebar.classList.contains('toggled')) {
+        const collapses = sidebar.querySelectorAll('.collapse.show')
         collapses.forEach((el) => {
-          el.classList.remove('show');
-        });
+          el.classList.remove('show')
+        })
       }
     }
-  }, []);
+  }, [])
 
   return (
     <>
@@ -247,7 +247,6 @@ export default function DefaultLayout({ children }: LayoutProps) {
                   </div>
                 </li>
 
-               
                 <div className="topbar-divider d-none d-sm-block"></div>
 
                 <li className="nav-item dropdown no-arrow">
@@ -358,5 +357,5 @@ export default function DefaultLayout({ children }: LayoutProps) {
         </div>
       </div>
     </>
-  );
+  )
 }
