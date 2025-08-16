@@ -49,7 +49,35 @@ export default function DefaultLayout({ children }: LayoutProps) {
           </li>
 
           <div className="sidebar-heading">Interface</div>
-
+          <li className="nav-item">
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapseCategories"
+              aria-expanded="true"
+              aria-controls="collapseCategories"
+            >
+              <i className="fas fa-fw fa-tags"></i>
+              <span>Categorias</span>
+            </a>
+            <div
+              id="collapseCategories"
+              className="collapse"
+              aria-labelledby="headingCategories"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <div className="sidebar-heading">Categorias</div>
+                <Link className="collapse-item" to="/categories/create">
+                  Criar Categoria
+                </Link>
+                <Link className="collapse-item" to="/categories/list">
+                  Listar Categorias
+                </Link>
+              </div>
+            </div>
+          </li>
           <li className="nav-item">
             <a
               className="nav-link collapsed"
@@ -74,17 +102,8 @@ export default function DefaultLayout({ children }: LayoutProps) {
                 <Link className="collapse-item" to="/products/create">
                   Criar Produto
                 </Link>
-                <Link className="collapse-item" to="/products/delete">
-                  Deletar Produto
-                </Link>
                 <Link className="collapse-item" to="/products/list">
                   Listar Produtos
-                </Link>
-                <Link className="collapse-item" to="/products/update">
-                  Atualizar Produto
-                </Link>
-                <Link className="collapse-item" to="/products/view">
-                  Consultar Produto
                 </Link>
               </div>
             </div>
@@ -113,17 +132,8 @@ export default function DefaultLayout({ children }: LayoutProps) {
                 <Link className="collapse-item" to="/clients/create">
                   Criar Cliente
                 </Link>
-                <Link className="collapse-item" to="/clients/delete">
-                  Deletar Cliente
-                </Link>
                 <Link className="collapse-item" to="/clients/list">
                   Listar Clientes
-                </Link>
-                <Link className="collapse-item" to="/clients/update">
-                  Atualizar Cliente
-                </Link>
-                <Link className="collapse-item" to="/clients/view">
-                  Consultar Cliente
                 </Link>
               </div>
             </div>
@@ -152,17 +162,8 @@ export default function DefaultLayout({ children }: LayoutProps) {
                 <Link className="collapse-item" to="/sales/create">
                   Criar Venda
                 </Link>
-                <Link className="collapse-item" to="/sales/delete">
-                  Deletar Venda
-                </Link>
                 <Link className="collapse-item" to="/sales/list">
                   Listar Vendas
-                </Link>
-                <Link className="collapse-item" to="/sales/update">
-                  Atualizar Venda
-                </Link>
-                <Link className="collapse-item" to="/sales/view">
-                  Consultar Venda
                 </Link>
               </div>
             </div>

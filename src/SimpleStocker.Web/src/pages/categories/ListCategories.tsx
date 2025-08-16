@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react'
 import { formatDateTime } from '../../shared/utils/dateUtils'
-import { Client } from '../../shared/models/Client'
-import { ClientService } from '../../shared/services/ClientService'
-import { useMemo } from 'react'
+import { Category } from '../../shared/models/Category'
+import { CategoryService } from '../../shared/services/CategoryService'
 import { useNavigate } from 'react-router-dom'
+import { useMemo } from 'react'
 
-export default function ListClients() {
-  const clientService = useMemo(() => new ClientService(), [])
-  const [clients, setClients] = useState<Client[]>([])
+export default function ListCategories() {
+  const categoryService = useMemo(() => new CategoryService(), [])
+  const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
-    clientService
+    categoryService
       .getAll()
-      .then((res) => setClients(res.data ?? []))
+      .then((res) => setCategories(res.data ?? []))
       .finally(() => setLoading(false))
-  }, [clientService])
+  }, [categoryService])
 
   return (
     <div className="card shadow mb-4">
       <div className="card-header py-3">
-        <h6 className="m-0 font-weight-bold text-primary">Listar Clientes</h6>
+        <h6 className="m-0 font-weight-bold text-primary">Listar Categorias</h6>
       </div>
       <div className="card-body">
         {loading ? (
@@ -33,45 +33,39 @@ export default function ListClients() {
                 <tr>
                   <th>ID</th>
                   <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                  <th>Endereço</th>
-                  <th>Número</th>
-                  <th>Ativo</th>
-                  <th>Nascimento</th>
+                  <th>Descrição</th>
+                  <th>Criado em</th>
+                  <th>Atualizado em</th>
                   <th className="text-center">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {clients.map((c) => (
+                {categories.map((c) => (
                   <tr key={c.id}>
                     <td>{c.id}</td>
                     <td>{c.name}</td>
-                    <td>{c.email}</td>
-                    <td>{c.phoneNumer}</td>
-                    <td>{c.address}</td>
-                    <td>{c.addressNumber}</td>
-                    <td>{c.active ? 'Sim' : 'Não'}</td>
-                    <td>{formatDateTime(c.birthDate)}</td>
+                    <td>{c.description}</td>
+                    <td>{formatDateTime(c.createdDate)}</td>
+                    <td>{formatDateTime(c.updatedDate)}</td>
                     <td className="text-center" style={{ minWidth: 120 }}>
                       <button
                         className="btn btn-sm btn-info mr-1"
                         title="Visualizar"
-                        onClick={() => navigate(`/clients/view/${c.id}`)}
+                        onClick={() => navigate(`/categories/view/${c.id}`)}
                       >
                         <i className="fas fa-eye"></i>
                       </button>
                       <button
                         className="btn btn-sm btn-warning mr-1"
                         title="Editar"
-                        onClick={() => navigate(`/clients/update/${c.id}`)}
+                        onClick={() => navigate(`/categories/update/${c.id}`)}
                       >
                         <i className="fas fa-edit"></i>
                       </button>
                       <button
                         className="btn btn-sm btn-danger"
                         title="Deletar"
-                        onClick={() => navigate(`/clients/delete/${c.id}`)}
+                        onClick={() => navigate(`/categories/delete/${c.id}`)}
                       >
                         <i className="fas fa-trash"></i>
                       </button>

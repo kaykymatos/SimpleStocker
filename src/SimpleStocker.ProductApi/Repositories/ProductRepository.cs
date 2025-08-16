@@ -31,7 +31,7 @@ namespace SimpleStocker.ProductApi.Repositories
         {
             try
             {
-                var modelsList = await _context.Products.ToListAsync();
+                var modelsList = await _context.Products.Include(x => x.Category).ToListAsync();
                 return modelsList;
             }
             catch (Exception e)
@@ -42,7 +42,7 @@ namespace SimpleStocker.ProductApi.Repositories
 
         public async Task<ProductModel> GetOneAsync(long id)
         {
-            var modelsList = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var modelsList = await _context.Products.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
             return modelsList;
         }
 
