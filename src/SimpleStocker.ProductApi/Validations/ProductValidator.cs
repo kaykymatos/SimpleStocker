@@ -30,6 +30,9 @@ namespace SimpleStocker.ProductApi.Validations
 
             RuleFor(x => x.CategoryId)
                 .GreaterThan(0).WithMessage("O ID da categoria deve ser maior que zero.");
+
+            RuleFor(x => x.QuantityStock)
+                .GreaterThan(0).WithMessage("A quantidade em estoque do produto deve ser maior que zero.");
         }
     }
 }

@@ -8,8 +8,8 @@ export class Sale {
   totalAmount: number
   clientId: number
   discount: number
-  paymentMethod: string
-  status: string
+  paymentMethod: number
+  status: number
 
   constructor(init?: Partial<Sale>) {
     this.id = init?.id ?? 0
@@ -19,7 +19,7 @@ export class Sale {
     this.totalAmount = init?.totalAmount ?? 0
     this.clientId = init?.clientId ?? 0
     this.discount = init?.discount ?? 0
-    this.paymentMethod = init?.paymentMethod ?? ''
-    this.status = init?.status ?? ''
+    this.paymentMethod = init?.paymentMethod ?? 0
+    this.status = init?.status ?? 0
   }
 }

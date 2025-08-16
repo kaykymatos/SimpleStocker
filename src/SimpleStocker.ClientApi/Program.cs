@@ -65,7 +65,7 @@ app.MapPost("clients", async ([FromBody] ClientDTO model, [FromServices] IClient
     return x;
 });
 
-app.MapPut("clients", async ([FromQuery] long id, [FromBody] ClientDTO model, [FromServices] IClientService service) =>
+app.MapPut("clients/{id:long}", async ([FromRoute] long id, [FromBody] ClientDTO model, [FromServices] IClientService service) =>
 {
     model.Id = id;
     var response = await service.UpdateAsync(id, model);

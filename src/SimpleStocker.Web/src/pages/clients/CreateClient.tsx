@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Client } from '../../shared/models/Client'
 import { ClientService } from '../../shared/services/ClientService'
 import { useMemo } from 'react'
+import { getApiFieldErrors } from '../../shared/utils/apiErrorFieldHelper'
 
 export default function CreateClient() {
   const clientService = useMemo(() => new ClientService(), [])
@@ -18,6 +19,7 @@ export default function CreateClient() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const navigate = useNavigate()
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -32,11 +34,26 @@ export default function CreateClient() {
     e.preventDefault()
     setLoading(true)
     setError(null)
+    const now = new Date().toISOString()
+    const clientDTO = {
+      id: 0,
+      createdDate: now,
+      updatedDate: now,
+      name: form.name ?? '',
+      email: form.email ?? '',
+      phoneNumer: form.phoneNumer ?? '',
+      address: form.address ?? '',
+      addressNumber: form.addressNumber ?? '',
+      active: form.active ?? true,
+      birthDate: form.birthDate ? new Date(form.birthDate).toISOString() : now,
+    }
     try {
-      await clientService.create(form as Client)
+      await clientService.create(clientDTO)
       navigate('/clients/list')
-    } catch {
-      setError('Erro ao criar cliente.')
+    } catch (err: any) {
+      const apiError = err?.response?.data
+      setFieldErrors(getApiFieldErrors(apiError))
+      if (apiError?.message) setError(apiError?.message)
     } finally {
       setLoading(false)
     }
@@ -58,8 +75,11 @@ export default function CreateClient() {
                 className="form-control"
                 value={form.name}
                 onChange={handleChange}
-                required
+                placeholder="Digite o nome do cliente"
               />
+              {fieldErrors.Name && (
+                <div className="text-danger small mt-1">{fieldErrors.Name}</div>
+              )}
             </div>
             <div className="form-group col-md-6">
               <label>Email</label>
@@ -69,8 +89,13 @@ export default function CreateClient() {
                 className="form-control"
                 value={form.email}
                 onChange={handleChange}
-                required
+                placeholder="Digite o e-mail"
               />
+              {fieldErrors.Email && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.Email}
+                </div>
+              )}
             </div>
           </div>
           <div className="form-row">
@@ -82,7 +107,13 @@ export default function CreateClient() {
                 className="form-control"
                 value={form.phoneNumer}
                 onChange={handleChange}
+                placeholder="Digite o telefone"
               />
+              {fieldErrors.PhoneNumer && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.PhoneNumer}
+                </div>
+              )}
             </div>
             <div className="form-group col-md-3">
               <label>Endereço</label>
@@ -92,7 +123,13 @@ export default function CreateClient() {
                 className="form-control"
                 value={form.address}
                 onChange={handleChange}
+                placeholder="Digite o endereço"
               />
+              {fieldErrors.Address && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.Address}
+                </div>
+              )}
             </div>
             <div className="form-group col-md-3">
               <label>Número</label>
@@ -102,7 +139,13 @@ export default function CreateClient() {
                 className="form-control"
                 value={form.addressNumber}
                 onChange={handleChange}
+                placeholder="Digite o número"
               />
+              {fieldErrors.AddressNumber && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.AddressNumber}
+                </div>
+              )}
             </div>
           </div>
           <div className="form-row">
@@ -114,7 +157,13 @@ export default function CreateClient() {
                 className="form-control"
                 value={form.birthDate}
                 onChange={handleChange}
+                placeholder="Selecione a data de nascimento"
               />
+              {fieldErrors.BirthDate && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.BirthDate}
+                </div>
+              )}
             </div>
             <div className="form-group col-md-2 d-flex align-items-center">
               <div className="form-check mt-4">

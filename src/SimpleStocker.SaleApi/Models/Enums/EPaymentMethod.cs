@@ -2,13 +2,13 @@
 {
     public enum EPaymentMethod
     {
-        Cash,             // Dinheiro
-        CreditCard,       // Cartão de crédito
-        DebitCard,        // Cartão de débito
-        Pix,              // Pagamento instantâneo (Brasil)
-        BankTransfer,     // Transferência bancária
-        Boleto,           // Boleto bancário
-        DigitalWallet,    // Carteira digital (ex: Mercado Pago, PayPal)
-        CryptoCurrency    // Moeda digital (ex: Bitcoin)
+        Cash = 0,             // Dinheiro
+        CreditCard = 1,       // Cartão de crédito
+        DebitCard = 2,        // Cartão de débito
+        Pix = 3,              // Pagamento instantâneo (Brasil)
+        BankTransfer = 4,     // Transferência bancária
+        Boleto = 5,           // Boleto bancário
+        DigitalWallet = 6,    // Carteira digital (ex: Mercado Pago, PayPal)
+        CryptoCurrency = 7    // Moeda digital (ex: Bitcoin)
     }
 }

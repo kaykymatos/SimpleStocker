@@ -15,8 +15,8 @@ namespace SimpleStocker.ProductApi.Endpoints
             app.MapPost("products", async ([FromBody] ProductDTO model, [FromServices] IProductService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
             {
                 var response = await service.CreateAsync(model);
-
-                rabbitMQMessageSender.SendMessage(response.Data.Adapt<ProductRabbitMQModel>(), "CreateProductQueue");
+                if (response.Success)
+                    rabbitMQMessageSender.SendMessage(response.Data.Adapt<ProductRabbitMQModel>(), "CreateProductQueue");
 
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
 
@@ -27,11 +27,12 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return x;
             });
 
-            app.MapPut("products", async ([FromQuery] long id, [FromBody] ProductDTO model, [FromServices] IProductService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
+            app.MapPut("products/{id:long}", async ([FromRoute] long id, [FromBody] ProductDTO model, [FromServices] IProductService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
             {
                 model.Id = id;
                 var response = await service.UpdateAsync(id, model);
-                rabbitMQMessageSender.SendMessage(response.Data.Adapt<ProductRabbitMQModel>(), "UpdateProductQueue");
+                if (response.Success)
+                    rabbitMQMessageSender.SendMessage(response.Data.Adapt<ProductRabbitMQModel>(), "UpdateProductQueue");
 
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>

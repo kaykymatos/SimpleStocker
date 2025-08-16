@@ -17,10 +17,11 @@ namespace SimpleStocker.SaleApi.Endpoints
             app.MapPost("sales", async ([FromBody] SaleDTO model, [FromServices] ISaleService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
             {
                 var response = await service.CreateAsync(model);
-
-                rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), EMAIL_QUEUE);
-                rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), STOCK_QUEUE);
-
+                if (response.Success)
+                {
+                    rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), EMAIL_QUEUE);
+                    rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), STOCK_QUEUE);
+                }
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
 
             }).WithOpenApi(x =>
@@ -30,7 +31,7 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return x;
             });
 
-            app.MapPut("sales", async ([FromQuery] long id, [FromBody] SaleDTO model, [FromServices] ISaleService service) =>
+            app.MapPut("sales/{id:long}", async ([FromRoute] long id, [FromBody] SaleDTO model, [FromServices] ISaleService service) =>
             {
                 model.Id = id;
                 var response = await service.UpdateAsync(id, model);

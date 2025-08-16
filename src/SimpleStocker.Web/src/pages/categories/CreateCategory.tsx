@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Category } from '../../shared/models/Category'
 import { CategoryService } from '../../shared/services/CategoryService'
 import { useMemo } from 'react'
+import { getApiFieldErrors } from '../../shared/utils/apiErrorFieldHelper'
 
 export default function CreateCategory() {
   const categoryService = useMemo(() => new CategoryService(), [])
@@ -12,6 +13,7 @@ export default function CreateCategory() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const navigate = useNavigate()
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -29,8 +31,11 @@ export default function CreateCategory() {
     try {
       await categoryService.create(form as Category)
       navigate('/categories/list')
-    } catch {
-      setError('Erro ao criar categoria.')
+    } catch (err: any) {
+      const apiError = err?.response?.data
+      setFieldErrors(getApiFieldErrors(apiError))
+      console.log('Teste', apiError)
+      if (apiError?.message) setError(apiError?.message)
     } finally {
       setLoading(false)
     }
@@ -52,8 +57,11 @@ export default function CreateCategory() {
                 className="form-control"
                 value={form.name}
                 onChange={handleChange}
-                required
+                placeholder="Digite o nome da categoria"
               />
+              {fieldErrors.Name && (
+                <div className="text-danger small mt-1">{fieldErrors.Name}</div>
+              )}
             </div>
             <div className="form-group col-md-6">
               <label>Descrição</label>
@@ -63,7 +71,13 @@ export default function CreateCategory() {
                 className="form-control"
                 value={form.description}
                 onChange={handleChange}
+                placeholder="Digite a descrição"
               />
+              {fieldErrors.Description && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.Description}
+                </div>
+              )}
             </div>
           </div>
           {error && <div className="alert alert-danger">{error}</div>}

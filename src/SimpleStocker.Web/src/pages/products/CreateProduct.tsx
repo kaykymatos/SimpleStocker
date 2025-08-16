@@ -5,6 +5,7 @@ import { ProductService } from '../../shared/services/ProductService'
 import { Category } from '../../shared/models/Category'
 import { CategoryService } from '../../shared/services/CategoryService'
 import { useMemo } from 'react'
+import { getApiFieldErrors } from '../../shared/utils/apiErrorFieldHelper'
 
 export default function CreateProduct() {
   const productService = new ProductService()
@@ -21,6 +22,7 @@ export default function CreateProduct() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -51,8 +53,10 @@ export default function CreateProduct() {
     try {
       await productService.create(form as Product)
       navigate('/products/list')
-    } catch {
-      setError('Erro ao criar produto.')
+    } catch (err: any) {
+      const apiError = err?.response?.data
+      setFieldErrors(getApiFieldErrors(apiError))
+      if (apiError?.message) setError(apiError?.message)
     } finally {
       setLoading(false)
     }
@@ -75,9 +79,14 @@ export default function CreateProduct() {
                   name="name"
                   value={form.name ?? ''}
                   onChange={handleChange}
-                  placeholder="Nome"
+                  placeholder="Digite o nome do produto"
                   className="form-control"
                 />
+                {fieldErrors.Name && (
+                  <div className="text-danger small mt-1">
+                    {fieldErrors.Name}
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-md-6">
@@ -88,9 +97,14 @@ export default function CreateProduct() {
                   name="description"
                   value={form.description ?? ''}
                   onChange={handleChange}
-                  placeholder="Descrição"
+                  placeholder="Digite a descrição"
                   className="form-control"
                 />
+                {fieldErrors.Description && (
+                  <div className="text-danger small mt-1">
+                    {fieldErrors.Description}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -104,9 +118,14 @@ export default function CreateProduct() {
                   type="number"
                   value={form.price ?? 0}
                   onChange={handleChange}
-                  placeholder="Preço"
+                  placeholder="Digite o preço"
                   className="form-control"
                 />
+                {fieldErrors.Price && (
+                  <div className="text-danger small mt-1">
+                    {fieldErrors.Price}
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-md-6">
@@ -118,9 +137,14 @@ export default function CreateProduct() {
                   type="number"
                   value={form.quantityStock ?? 0}
                   onChange={handleChange}
-                  placeholder="Estoque"
+                  placeholder="Digite a quantidade em estoque"
                   className="form-control"
                 />
+                {fieldErrors.QuantityStock && (
+                  <div className="text-danger small mt-1">
+                    {fieldErrors.QuantityStock}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -133,9 +157,14 @@ export default function CreateProduct() {
                   name="unityOfMeasurement"
                   value={form.unityOfMeasurement ?? ''}
                   onChange={handleChange}
-                  placeholder="Unidade de Medida"
+                  placeholder="Digite a unidade de medida"
                   className="form-control"
                 />
+                {fieldErrors.UnityOfMeasurement && (
+                  <div className="text-danger small mt-1">
+                    {fieldErrors.UnityOfMeasurement}
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-md-6">
@@ -148,13 +177,20 @@ export default function CreateProduct() {
                   onChange={handleChange}
                   className="form-control"
                 >
-                  <option value={0}>Selecione uma categoria</option>
+                  <option value={0} disabled>
+                    Selecione uma categoria
+                  </option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
                       {cat.name}
                     </option>
                   ))}
                 </select>
+                {fieldErrors.CategoryId && (
+                  <div className="text-danger small mt-1">
+                    {fieldErrors.CategoryId}
+                  </div>
+                )}
               </div>
             </div>
           </div>

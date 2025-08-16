@@ -21,7 +21,7 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return x;
             });
 
-            app.MapPut("saleitems", async ([FromQuery] long id, [FromBody] SaleItemDTO model, [FromServices] ISaleItemService service) =>
+            app.MapPut("saleitems/{id:long}", async ([FromRoute] long id, [FromBody] SaleItemDTO model, [FromServices] ISaleItemService service) =>
             {
                 model.Id = id;
                 var response = await service.UpdateAsync(id, model);

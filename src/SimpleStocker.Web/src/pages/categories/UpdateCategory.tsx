@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Category } from '../../shared/models/Category'
 import { CategoryService } from '../../shared/services/CategoryService'
 import { useMemo } from 'react'
+import { getApiFieldErrors } from '../../shared/utils/apiErrorFieldHelper'
 
 export default function UpdateCategory() {
   const { id } = useParams()
@@ -13,6 +14,7 @@ export default function UpdateCategory() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -36,8 +38,12 @@ export default function UpdateCategory() {
     try {
       await categoryService.update(id!, form as Category)
       navigate('/categories/list')
-    } catch {
-      setError('Erro ao atualizar categoria.') // Removed unused variable err
+    } catch (err: any) {
+      const apiError = err?.response?.data
+
+      setFieldErrors(getApiFieldErrors(apiError))
+
+      if (apiError?.message) setError(apiError?.message)
     } finally {
       setLoading(false)
     }
@@ -59,8 +65,11 @@ export default function UpdateCategory() {
                 className="form-control"
                 value={form.name}
                 onChange={handleChange}
-                required
+                placeholder="Digite o nome da categoria"
               />
+              {fieldErrors.Name && (
+                <div className="text-danger small mt-1">{fieldErrors.Name}</div>
+              )}
             </div>
             <div className="form-group col-md-6">
               <label>Descrição</label>
@@ -70,7 +79,13 @@ export default function UpdateCategory() {
                 className="form-control"
                 value={form.description}
                 onChange={handleChange}
+                placeholder="Digite a descrição"
               />
+              {fieldErrors.Description && (
+                <div className="text-danger small mt-1">
+                  {fieldErrors.Description}
+                </div>
+              )}
             </div>
           </div>
           {error && <div className="alert alert-danger">{error}</div>}
