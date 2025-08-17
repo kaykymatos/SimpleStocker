@@ -48,18 +48,18 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Obtem um Producte pelo ID";
-                x.Description = "Retorna os dados de um Producte específico a partir do ID informado na URL.";
+                x.Summary = "Get a Product by ID";
+                x.Description = "Returns the data of a specific Product based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                             {
-                                new OpenApiParameter
-                                {
-                                    Name = "id",
-                                    In = ParameterLocation.Path,
-                                    Required = true,
-                                    Description = "ID do Producte",
-                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                                }
+                                    new OpenApiParameter
+                                    {
+                                        Name = "id",
+                                        In = ParameterLocation.Path,
+                                        Required = true,
+                                        Description = "Product ID",
+                                        Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                    }
                             };
                 return x;
             });
@@ -81,19 +81,29 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Deleta um Producte pelo ID";
-                x.Description = "Deleta um Producte a partir do ID informado na URL.";
+                x.Summary = "Delete a Product by ID";
+                x.Description = "Deletes a Product based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                         {
-                            new OpenApiParameter
-                            {
-                                Name = "id",
-                                In = ParameterLocation.Path,
-                                Required = true,
-                                Description = "ID do Producte",
-                                Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                            }
+                                new OpenApiParameter
+                                {
+                                    Name = "id",
+                                    In = ParameterLocation.Path,
+                                    Required = true,
+                                    Description = "Product ID",
+                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                }
                         };
+                return x;
+            });
+            app.MapDelete("products/batch", async ([FromBody] List<long> ids, [FromServices] IProductService service) =>
+            {
+                var response = await service.DeleteManyAsync(ids);
+                return response.Success ? Results.Ok(response) : Results.BadRequest(response);
+            }).WithOpenApi(x =>
+            {
+                x.Summary = "Delete multiple products";
+                x.Description = "Deletes multiple products based on a list of IDs sent in the request body.";
                 return x;
             });
             return app;

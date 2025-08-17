@@ -30,4 +30,14 @@ export abstract class BaseService<T> {
   async delete(id: string | number): Promise<void> {
     await api.delete(`${this.baseUrl}/${id}`)
   }
+
+  async deleteMany(ids: number[]): Promise<ApiResponse<boolean>> {
+    const { data } = await api.delete<ApiResponse<boolean>>(
+      `${this.baseUrl}/batch`,
+      {
+        data: ids,
+      } as any
+    )
+    return data
+  }
 }

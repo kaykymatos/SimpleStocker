@@ -35,9 +35,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
               <div className="sidebar-brand-icon rotate-n-15">
                 <i className="fas fa-laugh-wink"></i>
               </div>
-              <div className="sidebar-brand-text mx-3">
-                SB Admin <sup>2</sup>
-              </div>
+              <div className="sidebar-brand-text mx-3">SimpleStocker</div>
             </a>
           </li>
           <li>

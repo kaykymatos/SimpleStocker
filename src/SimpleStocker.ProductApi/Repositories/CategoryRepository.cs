@@ -59,5 +59,15 @@ namespace SimpleStocker.ProductApi.Repositories
             await _context.SaveChangesAsync();
             return models;
         }
+
+        public async Task<bool> DeleteManyAsync(List<long> ids)
+        {
+            var categories = await _context.Categories.Where(x => ids.Contains(x.Id)).ToListAsync();
+            if (categories.Count == 0)
+                return false;
+            _context.Categories.RemoveRange(categories);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

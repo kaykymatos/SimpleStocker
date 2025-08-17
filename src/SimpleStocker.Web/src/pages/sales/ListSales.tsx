@@ -1,27 +1,79 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Sale } from '../../shared/models/Sale'
 import { SaleService } from '../../shared/services/SaleService'
 import { useNavigate } from 'react-router-dom'
 import { formatDateTime } from '../../shared/utils/dateUtils'
 
-const saleService = new SaleService()
-
 export default function ListSales() {
+  const saleService = useMemo(() => new SaleService(), [])
   const [sales, setSales] = useState<Sale[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
+    loadSales()
+  }, [saleService])
+
+  const loadSales = () => {
+    setLoading(true)
     saleService
       .getAll()
       .then((res) => setSales(res.data ?? []))
       .finally(() => setLoading(false))
-  }, [])
+  }
+
+  const toggleSelect = (id: number) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    )
+  }
+  const handleCreate = () => {
+    navigate('/sales/create')
+  }
+  const handleDeleteMany = async () => {
+    if (selectedIds.length === 0) return
+
+    if (
+      !window.confirm(
+        `Tem certeza que deseja deletar ${selectedIds.length} venda(s)?`
+      )
+    ) {
+      return
+    }
+
+    setLoading(true)
+    try {
+      await saleService.deleteMany(selectedIds)
+      setTimeout(() => {
+        setLoading(false)
+        loadSales()
+        setSelectedIds([])
+      }, 1000)
+    } catch (err: any) {
+      setLoading(false)
+      const apiError = err?.response?.data
+      alert(apiError.message || 'Erro ao deletar vendas')
+    }
+  }
 
   return (
     <div className="card shadow mb-4">
-      <div className="card-header py-3">
+      <div className="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 className="m-0 font-weight-bold text-primary">Listar Vendas</h6>
+        <div>
+          <button className="btn btn-info btn-sm mr-1" onClick={handleCreate}>
+            <i className="fas fa-plus mr-1"></i> Criar Venda
+          </button>
+          {selectedIds.length > 0 && (
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={handleDeleteMany}
+            >
+              <i className="fas fa-trash mr-1"></i> Deletar Selecionados
+            </button>
+          )}
+        </div>
       </div>
       <div className="card-body">
         {loading ? (
@@ -31,6 +83,19 @@ export default function ListSales() {
             <table className="table table-bordered table-hover table-sm mb-0">
               <thead className="thead-light">
                 <tr>
+                  <th>
+                    <input
+                      type="checkbox"
+                      checked={
+                        selectedIds.length === sales.length && sales.length > 0
+                      }
+                      onChange={(e) =>
+                        setSelectedIds(
+                          e.target.checked ? sales.map((s) => s.id) : []
+                        )
+                      }
+                    />
+                  </th>
                   <th>ID</th>
                   <th>Data</th>
                   <th>Cliente</th>
@@ -44,6 +109,13 @@ export default function ListSales() {
               <tbody>
                 {sales.map((s) => (
                   <tr key={s.id}>
+                    <td className="text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(s.id)}
+                        onChange={() => toggleSelect(s.id)}
+                      />
+                    </td>
                     <td>{s.id}</td>
                     <td>{formatDateTime(s.createdDate)}</td>
                     <td>{s.clientId}</td>

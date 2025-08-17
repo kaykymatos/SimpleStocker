@@ -39,18 +39,18 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Obtem SaleItem pelo ID";
-                x.Description = "Retorna os dados de SaleItem específico a partir do ID informado na URL.";
+                x.Summary = "Get SaleItem by ID";
+                x.Description = "Returns the data of a specific SaleItem based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                             {
-                                new OpenApiParameter
-                                {
-                                    Name = "id",
-                                    In = ParameterLocation.Path,
-                                    Required = true,
-                                    Description = "ID do SaleItem",
-                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                                }
+                                    new OpenApiParameter
+                                    {
+                                        Name = "id",
+                                        In = ParameterLocation.Path,
+                                        Required = true,
+                                        Description = "SaleItem ID",
+                                        Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                    }
                             };
                 return x;
             });
@@ -72,18 +72,18 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Deleta SaleItem pelo ID";
-                x.Description = "Deleta SaleItem a partir do ID informado na URL.";
+                x.Summary = "Delete SaleItem by ID";
+                x.Description = "Deletes a SaleItem based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                         {
-                            new OpenApiParameter
-                            {
-                                Name = "id",
-                                In = ParameterLocation.Path,
-                                Required = true,
-                                Description = "ID do SaleItem",
-                                Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                            }
+                                new OpenApiParameter
+                                {
+                                    Name = "id",
+                                    In = ParameterLocation.Path,
+                                    Required = true,
+                                    Description = "SaleItem ID",
+                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                }
                         };
                 return x;
             });

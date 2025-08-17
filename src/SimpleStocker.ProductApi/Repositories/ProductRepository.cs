@@ -27,6 +27,16 @@ namespace SimpleStocker.ProductApi.Repositories
             return true;
         }
 
+        public async Task<bool> DeleteManyAsync(List<long> ids)
+        {
+            var products = await _context.Products.Where(x => ids.Contains(x.Id)).ToListAsync();
+            if (products.Count == 0)
+                return false;
+            _context.Products.RemoveRange(products);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IList<ProductModel>> GetAllAsync()
         {
             try

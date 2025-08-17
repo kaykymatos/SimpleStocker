@@ -46,6 +46,18 @@ namespace SimpleStocker.SaleApi.Repositories
             return true;
         }
 
+        public async Task<bool> DeleteManyAsync(List<long> ids)
+        {
+            var sales = await _context.Sales.Include(x => x.Items).Where(x => ids.Contains(x.Id)).ToListAsync();
+            if (sales.Count == 0)
+                return false;
+            var saleItems = sales.SelectMany(s => s.Items).ToList();
+            _context.SaleItems.RemoveRange(saleItems);
+            _context.Sales.RemoveRange(sales);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IList<SaleModel>> GetAllAsync()
         {
             try

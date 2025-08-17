@@ -5,7 +5,7 @@ using SimpleStocker.ProductApi.Services;
 
 namespace SimpleStocker.ProductApi.Endpoints
 {
-    public static class Categoryndpoints
+    public static class CategoryEndpoints
     {
         public static WebApplication MapCategoryEndpoints(this WebApplication app)
         {
@@ -39,18 +39,18 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Obtem um Category pelo ID";
-                x.Description = "Retorna os dados de um Category específico a partir do ID informado na URL.";
+                x.Summary = "Get a Category by ID";
+                x.Description = "Returns the data of a specific Category based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                             {
-                                new OpenApiParameter
-                                {
-                                    Name = "id",
-                                    In = ParameterLocation.Path,
-                                    Required = true,
-                                    Description = "ID do Category",
-                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                                }
+                                    new OpenApiParameter
+                                    {
+                                        Name = "id",
+                                        In = ParameterLocation.Path,
+                                        Required = true,
+                                        Description = "Category ID",
+                                        Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                    }
                             };
                 return x;
             });
@@ -72,19 +72,30 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Deleta um Category pelo ID";
-                x.Description = "Deleta um Category a partir do ID informado na URL.";
+                x.Summary = "Delete a Category by ID";
+                x.Description = "Deletes a Category based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                         {
-                            new OpenApiParameter
-                            {
-                                Name = "id",
-                                In = ParameterLocation.Path,
-                                Required = true,
-                                Description = "ID do Category",
-                                Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                            }
+                                new OpenApiParameter
+                                {
+                                    Name = "id",
+                                    In = ParameterLocation.Path,
+                                    Required = true,
+                                    Description = "Category ID",
+                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                }
                         };
+                return x;
+            });
+
+            app.MapDelete("categories/batch", async ([FromBody] List<long> ids, [FromServices] ICategoryService service) =>
+            {
+                var response = await service.DeleteManyAsync(ids);
+                return response.Success ? Results.Ok(response) : Results.BadRequest(response);
+            }).WithOpenApi(x =>
+            {
+                x.Summary = "Delete multiple categories";
+                x.Description = "Deletes multiple categories based on a list of IDs sent in the request body.";
                 return x;
             });
             return app;

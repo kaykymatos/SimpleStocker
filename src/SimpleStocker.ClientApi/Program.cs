@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using SimpleStocker.ClientApi.Context;
-using SimpleStocker.ClientApi.DTO;
 using SimpleStocker.ClientApi.MapsterConfig;
 using SimpleStocker.ClientApi.Middlewares;
 using SimpleStocker.ClientApi.Repositories;
@@ -52,84 +49,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapClientEndpoints();
 
-app.MapPost("clients", async ([FromBody] ClientDTO model, [FromServices] IClientService service) =>
-{
-    var response = await service.CreateAsync(model);
-    return response.Success ? Results.Ok(response) : Results.BadRequest(response);
-
-}).WithOpenApi(x =>
-{
-    x.Summary = "";
-    x.Description = "";
-    return x;
-});
-
-app.MapPut("clients/{id:long}", async ([FromRoute] long id, [FromBody] ClientDTO model, [FromServices] IClientService service) =>
-{
-    model.Id = id;
-    var response = await service.UpdateAsync(id, model);
-    return response.Success ? Results.Ok(response) : Results.BadRequest(response);
-}).WithOpenApi(x =>
-{
-    x.Summary = "";
-    x.Description = "";
-    return x;
-});
-
-app.MapGet("clients/{id:long}", async ([FromRoute] long id, [FromServices] IClientService service) =>
-{
-    var response = await service.GetOneAsync(id);
-    return response.Success ? Results.Ok(response) : Results.BadRequest(response);
-}).WithOpenApi(x =>
-{
-    x.Summary = "Obtem um cliente pelo ID";
-    x.Description = "Retorna os dados de um cliente espec�fico a partir do ID informado na URL.";
-    x.Parameters = new List<OpenApiParameter>
-    {
-        new OpenApiParameter
-        {
-            Name = "id",
-            In = ParameterLocation.Path,
-            Required = true,
-            Description = "ID do cliente",
-            Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-        }
-    };
-    return x;
-});
-
-app.MapGet("clients", async ([FromServices] IClientService service) =>
-{
-    var response = await service.GetAllAsync();
-    return response.Success ? Results.Ok(response) : Results.BadRequest(response);
-}).WithOpenApi(x =>
-{
-    x.Summary = "";
-    x.Description = "";
-    return x;
-});
-
-app.MapDelete("clients/{id:long}", async ([FromRoute] long id, [FromServices] IClientService service) =>
-{
-    var response = await service.DeleteAsync(id);
-    return response.Success ? Results.Ok(response) : Results.BadRequest(response);
-}).WithOpenApi(x =>
-{
-    x.Summary = "Deleta um cliente pelo ID";
-    x.Description = "Deleta um cliente a partir do ID informado na URL.";
-    x.Parameters = new List<OpenApiParameter>
-    {
-        new OpenApiParameter
-        {
-            Name = "id",
-            In = ParameterLocation.Path,
-            Required = true,
-            Description = "ID do cliente",
-            Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-        }
-    };
-    return x;
-});
 
 app.Run();
