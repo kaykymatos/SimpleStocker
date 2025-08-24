@@ -17,10 +17,11 @@ namespace SimpleStocker.SaleApi.Endpoints
             app.MapPost("sales", async ([FromBody] SaleDTO model, [FromServices] ISaleService service, [FromServices] IRabbitMQMessageSender rabbitMQMessageSender, CancellationToken token) =>
             {
                 var response = await service.CreateAsync(model);
-
-                rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), EMAIL_QUEUE);
-                rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), STOCK_QUEUE);
-
+                if (response.Success)
+                {
+                    rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), EMAIL_QUEUE);
+                    rabbitMQMessageSender.SendMessage(response.Data.Adapt<SaleRabbitMQModel>(), STOCK_QUEUE);
+                }
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
 
             }).WithOpenApi(x =>
@@ -30,7 +31,7 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return x;
             });
 
-            app.MapPut("sales", async ([FromQuery] long id, [FromBody] SaleDTO model, [FromServices] ISaleService service) =>
+            app.MapPut("sales/{id:long}", async ([FromRoute] long id, [FromBody] SaleDTO model, [FromServices] ISaleService service) =>
             {
                 model.Id = id;
                 var response = await service.UpdateAsync(id, model);
@@ -48,18 +49,18 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Obtem Sale pelo ID";
-                x.Description = "Retorna os dados de Sale específico a partir do ID informado na URL.";
+                x.Summary = "Get Sale by ID";
+                x.Description = "Returns the data of a specific Sale based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                             {
-                                new OpenApiParameter
-                                {
-                                    Name = "id",
-                                    In = ParameterLocation.Path,
-                                    Required = true,
-                                    Description = "ID do Sale",
-                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                                }
+                                    new OpenApiParameter
+                                    {
+                                        Name = "id",
+                                        In = ParameterLocation.Path,
+                                        Required = true,
+                                        Description = "Sale ID",
+                                        Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                    }
                             };
                 return x;
             });
@@ -81,19 +82,30 @@ namespace SimpleStocker.SaleApi.Endpoints
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
-                x.Summary = "Deleta Sale pelo ID";
-                x.Description = "Deleta Sale a partir do ID informado na URL.";
+                x.Summary = "Delete Sale by ID";
+                x.Description = "Deletes a Sale based on the ID provided in the URL.";
                 x.Parameters = new List<OpenApiParameter>
                         {
-                            new OpenApiParameter
-                            {
-                                Name = "id",
-                                In = ParameterLocation.Path,
-                                Required = true,
-                                Description = "ID do Sale",
-                                Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
-                            }
+                                new OpenApiParameter
+                                {
+                                    Name = "id",
+                                    In = ParameterLocation.Path,
+                                    Required = true,
+                                    Description = "Sale ID",
+                                    Schema = new OpenApiSchema { Type = "integer", Format = "int64" }
+                                }
                         };
+                return x;
+            });
+
+            app.MapDelete("sales/batch", async ([FromBody] List<long> ids, [FromServices] ISaleService service) =>
+            {
+                var response = await service.DeleteManyAsync(ids);
+                return response.Success ? Results.Ok(response) : Results.BadRequest(response);
+            }).WithOpenApi(x =>
+            {
+                x.Summary = "Delete multiple sales";
+                x.Description = "Deletes multiple sales based on a list of IDs sent in the request body.";
                 return x;
             });
             return app;

@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/clients",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     },
     {
       "DownstreamPathTemplate": "/clients/{id}",
@@ -22,7 +22,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/clients/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/inventory",
@@ -58,7 +58,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/products",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     },
     {
       "DownstreamPathTemplate": "/products/{id}",
@@ -70,7 +70,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/products/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/categories",
@@ -82,7 +82,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/categories",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     },
     {
       "DownstreamPathTemplate": "/categories/{id}",
@@ -94,7 +94,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/categories/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/sales",
@@ -106,7 +106,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/sales",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     },
     {
       "DownstreamPathTemplate": "/sales/{id}",
@@ -118,7 +118,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/sales/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/saleitems",
@@ -130,7 +130,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/saleitems",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     },
     {
       "DownstreamPathTemplate": "/saleitems/{id}",
@@ -142,7 +142,7 @@
         }
       ],
       "UpstreamPathTemplate": "/v1/saleitems/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "DELETE", "PUT" ]
     }
   ],
   "GlobalConfiguration": {

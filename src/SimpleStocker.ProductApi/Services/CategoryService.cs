@@ -56,6 +56,21 @@ namespace SimpleStocker.ProductApi.Services
             }
         }
 
+        public async Task<ApiResponse<bool>> DeleteManyAsync(List<long> ids)
+        {
+            try
+            {
+                var result = await _repository.DeleteManyAsync(ids);
+                if (result)
+                    return new ApiResponse<bool>(true, "", [], true, 200);
+                return new ApiResponse<bool>("Server", "Erro ao deletar itens");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<ApiResponse<IList<CategoryDTO>>> GetAllAsync()
         {
             try
