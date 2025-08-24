@@ -41,6 +41,17 @@ namespace SimpleStocker.InventoryApi.Endpoints
                 x.Description = "";
                 return x;
             });
+
+            app.MapPost("inventory/get-inventory-by-product-id-list", async ([FromServices] IInventoryService service, [FromBody] List<long> productIds) =>
+            {
+                var response = await service.GetStockByProductIdList(productIds);
+                return response.Success ? Results.Ok(response) : Results.BadRequest(response);
+            }).WithOpenApi(x =>
+            {
+                x.Summary = "";
+                x.Description = "";
+                return x;
+            });
             return app;
         }
     }

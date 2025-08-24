@@ -46,6 +46,19 @@ namespace SimpleStocker.InventoryApi.Repositories
             return modelsList;
         }
 
+        public async Task<List<InventoryModel>> GetStockByProductIdList(List<long> productIds)
+        {
+            try
+            {
+                var modelsList = await _context.InventoryModel.Where(x => productIds.Contains(x.ProductId)).ToListAsync();
+                return modelsList;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public async Task<InventoryModel> UpdateAsync(long id, InventoryModel model)
         {
             _context.InventoryModel.Update(model);

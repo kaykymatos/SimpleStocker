@@ -5,7 +5,7 @@
         public bool Success { get; private set; } = false;                          // Indica sucesso ou falha
         public string Message { get; private set; } = "";                           // Mensagem amigável para o usuário
         public List<Dictionary<string, string>> Errors { get; private set; } = [];  // Lista de erros, se houver
-        public T Data { get; private set; } = default;                              // Objeto ou lista de dados retornados
+        public T Data { get; set; } = default;                              // Objeto ou lista de dados retornados
         public int StatusCode { get; private set; } = 0;                            // Código de status HTTP
 
         public ApiResponse()

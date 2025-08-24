@@ -86,6 +86,21 @@ namespace SimpleStocker.InventoryApi.Services
             }
         }
 
+        public async Task<ApiResponse<List<InventoryDTO>>> GetStockByProductIdList(List<long> productIds)
+        {
+            try
+            {
+                var res = await _repository.GetStockByProductIdList(productIds);
+                if (res == null)
+                    return new ApiResponse<List<InventoryDTO>>("Server", "Erro ao tentar criar registro!");
+                return new ApiResponse<List<InventoryDTO>>(true, "", [], res.Adapt<List<InventoryDTO>>(), 200);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<ApiResponse<InventoryDTO>> UpdateAsync(long id, InventoryDTO model)
         {
             var originalmodel = await _repository.GetOneAsync(id);

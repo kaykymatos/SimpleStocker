@@ -67,9 +67,6 @@ export default function DefaultLayout({ children }: LayoutProps) {
             >
               <div className="bg-white py-2 collapse-inner rounded">
                 <div className="sidebar-heading">Categorias</div>
-                <Link className="collapse-item" to="/categories/create">
-                  Criar Categoria
-                </Link>
                 <Link className="collapse-item" to="/categories/list">
                   Listar Categorias
                 </Link>
@@ -96,10 +93,6 @@ export default function DefaultLayout({ children }: LayoutProps) {
             >
               <div className="bg-white py-2 collapse-inner rounded">
                 <div className="sidebar-heading">Produtos</div>
-
-                <Link className="collapse-item" to="/products/create">
-                  Criar Produto
-                </Link>
                 <Link className="collapse-item" to="/products/list">
                   Listar Produtos
                 </Link>
@@ -127,9 +120,6 @@ export default function DefaultLayout({ children }: LayoutProps) {
             >
               <div className="bg-white py-2 collapse-inner rounded">
                 <div className="sidebar-heading">Clientes</div>
-                <Link className="collapse-item" to="/clients/create">
-                  Criar Cliente
-                </Link>
                 <Link className="collapse-item" to="/clients/list">
                   Listar Clientes
                 </Link>
@@ -157,9 +147,6 @@ export default function DefaultLayout({ children }: LayoutProps) {
             >
               <div className="bg-white py-2 collapse-inner rounded">
                 <div className="sidebar-heading">Vendas</div>
-                <Link className="collapse-item" to="/sales/create">
-                  Criar Venda
-                </Link>
                 <Link className="collapse-item" to="/sales/list">
                   Listar Vendas
                 </Link>
