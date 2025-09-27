@@ -76,12 +76,7 @@ namespace SimpleStocker.ProductApi.Services
                 var result = await _repository.DeleteManyAsync(ids);
                 if (result)
                 {
-
-                    List<string> keyList = [];
-                    foreach (var id in ids)
-                        keyList.Add(string.Format(CacheKeys.GetOneProduct, id));
-
-                    await _cache.RemoveListAsync(keyList);
+                    await _cache.RemoveListAsync(ids.Select(id => string.Format(CacheKeys.GetOneCategory, id)).ToList());
                     return new ApiResponse<bool>(true, "", [], true, 200);
                 }
                 return new ApiResponse<bool>("Server", "Erro ao deletar itens");
@@ -100,29 +95,30 @@ namespace SimpleStocker.ProductApi.Services
                 var cachedResponse = new ApiResponse<IList<ProductDTO>>(JsonSerializer.Deserialize<List<ProductDTO>>(cachedProduct));
                 return cachedResponse;
             }
-            var dbReturn = await _repository.GetAllAsync();
-            var response = new ApiResponse<IList<ProductDTO>>(dbReturn.Adapt<IList<ProductDTO>>());
 
-            var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(_config["ExternalServicesUrls:InventorySerivce"]) });
-            ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
             try
             {
+                var dbReturn = await _repository.GetAllAsync();
+                var response = new ApiResponse<IList<ProductDTO>>(dbReturn.Adapt<IList<ProductDTO>>());
+
+                var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(_config["ExternalServicesUrls:InventorySerivce"]) });
+                ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
+
                 inventoryData = await httpClientFactoryService.PostAsync<List<InventoryDTO>>(
                     "/inventory/get-inventory-by-product-id-list",
                     response.Data.Select(x => x.Id).ToList()
                 );
+                foreach (var item in response.Data)
+                    item.QuantityStock = inventoryData.Data.First(x => x.ProductId == item.Id).Quantity;
+
+                await _cache.SetAsync(CacheKeys.GetAllProducts, JsonSerializer.Serialize(response.Data));
+
+                return response;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-
-            foreach (var item in response.Data)
-                item.QuantityStock = inventoryData.Data.First(x => x.ProductId == item.Id).Quantity;
-
-            await _cache.SetAsync(CacheKeys.GetAllProducts, JsonSerializer.Serialize(response.Data));
-
-            return response;
         }
 
         public async Task<ApiResponse<ProductDTO>> GetOneAsync(long id)
@@ -133,26 +129,30 @@ namespace SimpleStocker.ProductApi.Services
                 var cachedResponse = new ApiResponse<ProductDTO>(JsonSerializer.Deserialize<ProductDTO>(cachedProduct));
                 return cachedResponse;
             }
-            var response = new ApiResponse<ProductDTO>();
-            response.Data = new ProductDTO();
-            var dbReturn = await _repository.GetOneAsync(id);
-            dbReturn.Adapt(response.Data);
-            var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(_config["ExternalServicesUrls:InventorySerivce"]) });
-            ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
+
             try
             {
+                var response = new ApiResponse<ProductDTO>();
+                response.Data = new ProductDTO();
+
+                var dbReturn = await _repository.GetOneAsync(id);
+                dbReturn.Adapt(response.Data);
+
+                var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(_config["ExternalServicesUrls:InventorySerivce"]) });
+                ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
                 inventoryData = await httpClientFactoryService.PostAsync<List<InventoryDTO>>(
                     "/inventory/get-inventory-by-product-id-list",
                     new List<long> { id }
                 );
                 response.Data.QuantityStock = inventoryData.Data.First().Quantity;
+
+                await _cache.SetAsync(string.Format(CacheKeys.GetOneProduct, id), JsonSerializer.Serialize(response.Data));
+                return response;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-            await _cache.SetAsync(string.Format(CacheKeys.GetOneProduct, id), JsonSerializer.Serialize(response.Data));
-            return response;
         }
 
         public async Task<ApiResponse<ProductDTO>> UpdateAsync(long id, ProductDTO model)
@@ -180,12 +180,12 @@ namespace SimpleStocker.ProductApi.Services
                     CacheKeys.GetAllProducts,
                     JsonSerializer.Serialize(products.Adapt<List<ProductDTO>>())
                 );
-                var updateProducCacheTask = _cache.SetAsync(
+                var updateProductCacheTask = _cache.SetAsync(
                     string.Format(CacheKeys.GetOneProduct, id),
                     JsonSerializer.Serialize(productUpdate)
                 );
 
-                await Task.WhenAll(updateRepoTask, updateCacheTask, updateProducCacheTask);
+                await Task.WhenAll(updateRepoTask, updateCacheTask, updateProductCacheTask);
 
                 var updatedEntity = await updateRepoTask;
 
@@ -196,6 +196,5 @@ namespace SimpleStocker.ProductApi.Services
                 throw new Exception(ex.Message);
             }
         }
-
     }
 }

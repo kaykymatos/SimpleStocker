@@ -4,5 +4,7 @@
     {
         public const string GetOneProduct = "PRODUCT_API_GET_ONE_PRODUCT_{0}";
         public const string GetAllProducts = "PRODUCT_API_GET_ALL_PRODUCTS";
+        public const string GetOneCategory = "CATEGORY_API_GET_ONE_CATEGORY_{0}";
+        public const string GetAllCategories = "CATEGORY_API_GET_ALL_CATEGORIES";
     }
 }
