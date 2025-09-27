@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleStocker.ProductApi.Caching.Services;
 using SimpleStocker.ProductApi.Context;
 using SimpleStocker.ProductApi.Endpoints;
 using SimpleStocker.ProductApi.MapsterConfig;
@@ -11,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApiContext>(options =>
                    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnextion")));
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 builder.Services.AddScoped<IRabbitMQMessageSender, RabbitMQMessageSender>();
 builder.Services.AddCors(options =>
@@ -33,6 +32,13 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICachingService, CachingService>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.InstanceName = "SimpleStocker.ProductApi";
+    options.Configuration = builder.Configuration.GetValue<string>("RedisCache:Host");
+});
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();

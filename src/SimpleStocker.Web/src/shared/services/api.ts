@@ -39,6 +39,7 @@ api.interceptors.response.use(
       }
     } else if (error.request) {
       // Sem resposta do servidor
+      console.log(error)
       console.error('Sem resposta do servidor')
     } else {
       // Erro de configuração
