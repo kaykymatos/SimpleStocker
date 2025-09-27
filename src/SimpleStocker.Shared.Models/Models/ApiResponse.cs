@@ -1,4 +1,4 @@
-﻿namespace SimpleStocker.ProductApi.DTO
+﻿namespace SimpleStocker.Shared.Models.Models
 {
     public class ApiResponse<T>
     {

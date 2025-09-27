@@ -1,4 +1,4 @@
-﻿using SimpleStocker.InventoryApi.DTO;
+﻿using SimpleStocker.Shared.Models.Models;
 using System.Net;
 using System.Text.Json;
 

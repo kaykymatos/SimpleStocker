@@ -1,6 +1,6 @@
-﻿using SimpleStocker.SaleApi.DTO;
+﻿using SimpleStocker.Shared.Models.Models;
 
-namespace SimpleStocker.SaleApi.Services
+namespace SimpleStocker.Shared.Models.Interfaces.Services
 {
     public interface IBaseService<T> where T : class
     {

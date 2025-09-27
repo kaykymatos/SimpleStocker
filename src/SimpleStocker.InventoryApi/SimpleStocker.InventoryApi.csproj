@@ -25,4 +25,8 @@
 	  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleStocker.Shared.Models\SimpleStocker.Shared.Models.csproj" />
+  </ItemGroup>
+
 </Project>

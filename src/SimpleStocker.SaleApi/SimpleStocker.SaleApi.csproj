@@ -28,6 +28,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\SimpleStocker.MessageBus\SimpleStocker.MessageBus.csproj" />
+	  <ProjectReference Include="..\SimpleStocker.Shared.Models\SimpleStocker.Shared.Models.csproj" />
 	</ItemGroup>
 
 </Project>

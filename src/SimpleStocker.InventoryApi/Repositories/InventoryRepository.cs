@@ -59,7 +59,7 @@ namespace SimpleStocker.InventoryApi.Repositories
             }
         }
 
-        public async Task<InventoryModel> UpdateAsync(long id, InventoryModel model)
+        public async Task<InventoryModel> UpdateAsync(InventoryModel model)
         {
             _context.InventoryModel.Update(model);
             await _context.SaveChangesAsync();

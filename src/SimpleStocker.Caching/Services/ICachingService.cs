@@ -1,4 +1,4 @@
-﻿namespace SimpleStocker.ProductApi.Caching.Services
+﻿namespace SimpleStocker.Caching.Services
 {
     public interface ICachingService
     {

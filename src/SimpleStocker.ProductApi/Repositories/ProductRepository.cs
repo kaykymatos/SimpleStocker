@@ -68,6 +68,5 @@ namespace SimpleStocker.ProductApi.Repositories
             await _context.SaveChangesAsync();
             return models;
         }
-
     }
 }

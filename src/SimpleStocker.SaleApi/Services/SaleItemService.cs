@@ -4,6 +4,7 @@ using SimpleStocker.SaleApi.Models;
 using SimpleStocker.SaleApi.Repositories;
 using SimpleStocker.SaleApi.Util;
 using SimpleStocker.SaleApi.Validations;
+using SimpleStocker.Shared.Models.Models;
 
 namespace SimpleStocker.SaleApi.Services
 {
@@ -101,7 +102,7 @@ namespace SimpleStocker.SaleApi.Services
             try
             {
                 model.Adapt(originalmodel);
-                var res = await _repository.UpdateAsync(id, originalmodel);
+                var res = await _repository.UpdateAsync(originalmodel);
                 if (res == null)
                     return new ApiResponse<SaleItemDTO>("Server", "Erro ao tentar criar registro!");
                 return new ApiResponse<SaleItemDTO>(true, "", [], res.Adapt<SaleItemDTO>(), 200);

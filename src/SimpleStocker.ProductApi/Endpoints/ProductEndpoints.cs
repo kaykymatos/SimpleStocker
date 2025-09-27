@@ -1,14 +1,10 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using SimpleStocker.ProductApi.Caching;
-using SimpleStocker.ProductApi.Caching.Services;
 using SimpleStocker.ProductApi.DTO;
-using SimpleStocker.ProductApi.Factories;
 using SimpleStocker.ProductApi.RabbitMQ.RabbitMQModels;
 using SimpleStocker.ProductApi.RabbitMQ.RabbitMQSender;
 using SimpleStocker.ProductApi.Services;
-using System.Text.Json;
 
 namespace SimpleStocker.ProductApi.Endpoints
 {

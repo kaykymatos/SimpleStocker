@@ -1,4 +1,5 @@
 ﻿using SimpleStocker.ClientApi.Models;
+using SimpleStocker.Shared.Models.Interfaces.Repositories;
 
 namespace SimpleStocker.ClientApi.Repositories
 {

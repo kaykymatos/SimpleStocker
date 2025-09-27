@@ -1,18 +1,24 @@
 ﻿using Mapster;
+using SimpleStocker.Caching;
+using SimpleStocker.Caching.Services;
 using SimpleStocker.ClientApi.DTO;
 using SimpleStocker.ClientApi.Models;
 using SimpleStocker.ClientApi.Repositories;
 using SimpleStocker.ClientApi.Util;
 using SimpleStocker.ClientApi.Validations;
+using SimpleStocker.Shared.Models.Models;
+using System.Text.Json;
 
 namespace SimpleStocker.ClientApi.Services
 {
     public class ClientService : IClientService
     {
         private readonly IClientRepository _repository;
-        public ClientService(IClientRepository repository)
+        private readonly ICachingService _cache;
+        public ClientService(IClientRepository repository, ICachingService cache)
         {
             _repository = repository;
+            _cache = cache;
         }
 
         public async Task<ApiResponse<ClientDTO>> CreateAsync(ClientDTO model)
@@ -42,12 +48,13 @@ namespace SimpleStocker.ClientApi.Services
                 if (foundEntity == null)
                     return new ApiResponse<bool>("Id", "Id não encontrado!");
 
-
                 var deleteItem = await _repository.DeleteAsync(id);
                 if (deleteItem)
+                {
+                    await _cache.RemoveAsync(string.Format(CacheKeys.GetOneClient, id));
                     return new ApiResponse<bool>(true, "", [], true, 200);
+                }
                 return new ApiResponse<bool>("Server", "Erro ao deletar item");
-
             }
             catch (Exception ex)
             {
@@ -61,7 +68,10 @@ namespace SimpleStocker.ClientApi.Services
             {
                 var result = await _repository.DeleteManyAsync(ids);
                 if (result)
+                {
+                    await _cache.RemoveListAsync(ids.Select(id => string.Format(CacheKeys.GetOneClient, id)).ToList());
                     return new ApiResponse<bool>(true, "", [], true, 200);
+                }
                 return new ApiResponse<bool>("Server", "Erro ao deletar itens");
             }
             catch (Exception ex)
@@ -74,10 +84,16 @@ namespace SimpleStocker.ClientApi.Services
         {
             try
             {
-                var foundEntity = await _repository.GetAllAsync();
-
-                return new ApiResponse<IList<ClientDTO>>(true, "", [], foundEntity.Adapt<List<ClientDTO>>(), 200);
-
+                var cachedCategories = await _cache.GetAsync(CacheKeys.GetAllClients);
+                if (!string.IsNullOrEmpty(cachedCategories))
+                {
+                    var cachedResponse = new ApiResponse<IList<ClientDTO>>(JsonSerializer.Deserialize<IList<ClientDTO>>(cachedCategories));
+                    return cachedResponse;
+                }
+                var dbReturn = await _repository.GetAllAsync();
+                var response = new ApiResponse<IList<ClientDTO>>(dbReturn.Adapt<IList<ClientDTO>>());
+                await _cache.SetAsync(CacheKeys.GetAllClients, JsonSerializer.Serialize(response.Data));
+                return response;
             }
             catch (Exception ex)
             {
@@ -89,11 +105,17 @@ namespace SimpleStocker.ClientApi.Services
         {
             try
             {
-                var entity = await _repository.GetOneAsync(id);
-                if (entity == null)
-                    return new ApiResponse<ClientDTO>("Id", "Id não encontrado!");
+                var cachedClient = await _cache.GetAsync(string.Format(CacheKeys.GetOneClient, id));
+                if (!string.IsNullOrEmpty(cachedClient))
+                {
+                    var cachedResponse = new ApiResponse<ClientDTO>(JsonSerializer.Deserialize<ClientDTO>(cachedClient));
+                    return cachedResponse;
+                }
+                var dbReturn = await _repository.GetOneAsync(id);
+                var response = new ApiResponse<ClientDTO>(dbReturn.Adapt<ClientDTO>());
 
-                return new ApiResponse<ClientDTO>(true, "", [], entity.Adapt<ClientDTO>(), 200);
+                await _cache.SetAsync(string.Format(CacheKeys.GetOneClient, id), JsonSerializer.Serialize(response.Data));
+                return response;
             }
             catch (Exception ex)
             {
@@ -114,11 +136,28 @@ namespace SimpleStocker.ClientApi.Services
 
             try
             {
+                var clients = JsonSerializer.Deserialize<List<ClientDTO>>(await _cache.GetAsync(CacheKeys.GetAllClients));
                 model.Adapt(originalmodel);
-                var res = await _repository.UpdateAsync(id, originalmodel);
-                if (res == null)
-                    return new ApiResponse<ClientDTO>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<ClientDTO>(true, "", [], res.Adapt<ClientDTO>(), 200);
+
+                var clientUpdate = clients.FirstOrDefault(x => x.Id == id);
+                model.Adapt(clientUpdate);
+                clientUpdate.UpdatedDate = DateTime.UtcNow;
+
+                var updateRepoTask = _repository.UpdateAsync(originalmodel);
+                var updateCacheTask = _cache.SetAsync(
+                    CacheKeys.GetAllClients,
+                    JsonSerializer.Serialize(clients.Adapt<List<ClientDTO>>())
+                );
+                var updateProductCacheTask = _cache.SetAsync(
+                    string.Format(CacheKeys.GetOneClient, id),
+                    JsonSerializer.Serialize(clientUpdate)
+                );
+
+                await Task.WhenAll(updateRepoTask, updateCacheTask, updateProductCacheTask);
+
+                var updatedEntity = await updateRepoTask;
+
+                return new ApiResponse<ClientDTO>(true, "", [], updatedEntity.Adapt<ClientDTO>(), 200);
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@ using SimpleStocker.InventoryApi.Models;
 using SimpleStocker.InventoryApi.Repositories;
 using SimpleStocker.InventoryApi.Util;
 using SimpleStocker.InventoryApi.Validations;
+using SimpleStocker.Shared.Models.Models;
 
 namespace SimpleStocker.InventoryApi.Services
 {
@@ -115,7 +116,7 @@ namespace SimpleStocker.InventoryApi.Services
             try
             {
                 model.Adapt(originalmodel);
-                var res = await _repository.UpdateAsync(id, originalmodel);
+                var res = await _repository.UpdateAsync(originalmodel);
                 if (res == null)
                     return new ApiResponse<InventoryDTO>("Server", "Erro ao tentar criar registro!");
                 return new ApiResponse<InventoryDTO>(true, "", [], res.Adapt<InventoryDTO>(), 200);

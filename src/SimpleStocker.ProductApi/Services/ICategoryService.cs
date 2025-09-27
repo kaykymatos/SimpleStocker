@@ -1,4 +1,6 @@
 ﻿using SimpleStocker.ProductApi.DTO;
+using SimpleStocker.Shared.Models.Interfaces.Services;
+using SimpleStocker.Shared.Models.Models;
 
 namespace SimpleStocker.ProductApi.Services
 {
