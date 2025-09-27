@@ -12,14 +12,18 @@ export default function ListProducts() {
 
   useEffect(() => {
     loadProducts()
-  }, [productService])
+  }, [])
 
   const loadProducts = () => {
     setLoading(true)
     productService
       .getAll()
-      .then((res) => setProducts(res.data ?? []))
-      .finally(() => setLoading(false))
+      .then((res) => {
+        console.log(res.data)
+        setProducts(res.data ?? [])
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
   }
 
   const toggleSelect = (id: number) => {

@@ -23,7 +23,8 @@ export abstract class BaseService<T> {
   }
 
   async getAll(): Promise<ApiResponse<T[]>> {
-    const { data } = await api.get<ApiResponse<T[]>>(this.baseUrl)
+    const { data } = await api.get<ApiResponse<T[]>>(this.baseUrl);
+    console.log(data)
     return data
   }
 
