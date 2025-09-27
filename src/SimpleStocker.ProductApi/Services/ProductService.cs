@@ -1,13 +1,13 @@
 ﻿using Mapster;
-using SimpleStocker.ProductApi.Caching;
-using SimpleStocker.ProductApi.Caching.Services;
+using SimpleStocker.Caching;
+using SimpleStocker.Caching.Services;
 using SimpleStocker.ProductApi.DTO;
 using SimpleStocker.ProductApi.Factories;
 using SimpleStocker.ProductApi.Models;
 using SimpleStocker.ProductApi.Repositories;
 using SimpleStocker.ProductApi.Util;
 using SimpleStocker.ProductApi.Validations;
-using System.Reflection.Metadata.Ecma335;
+using SimpleStocker.Shared.Models.Models;
 using System.Text.Json;
 
 namespace SimpleStocker.ProductApi.Services
@@ -52,7 +52,6 @@ namespace SimpleStocker.ProductApi.Services
                 var foundEntity = await _repository.GetOneAsync(id);
                 if (foundEntity == null)
                     return new ApiResponse<bool>("Id", "Id não encontrado!");
-
 
                 var deleteItem = await _repository.DeleteAsync(id);
                 if (deleteItem)

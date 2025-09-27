@@ -77,7 +77,7 @@ namespace SimpleStocker.SaleApi.Repositories
             return modelsList;
         }
 
-        public async Task<SaleModel> UpdateAsync(long id, SaleModel model)
+        public async Task<SaleModel> UpdateAsync(SaleModel model)
         {
             _context.Sales.Update(model);
             await _context.SaveChangesAsync();

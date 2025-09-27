@@ -1,8 +1,6 @@
-﻿
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 
-namespace SimpleStocker.ProductApi.Caching.Services
+namespace SimpleStocker.Caching.Services
 {
     public class CachingService : ICachingService
     {

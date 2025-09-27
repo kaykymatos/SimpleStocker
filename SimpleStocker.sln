@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.SaleApi.Tests
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "simplestocker.web", "src\SimpleStocker.Web\simplestocker.web.esproj", "{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.Caching", "src\SimpleStocker.Caching\SimpleStocker.Caching.csproj", "{13E3A0A9-3D2B-4DBA-BE1B-99DE0A9C7FB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStocker.Shared.Models", "src\SimpleStocker.Shared.Models\SimpleStocker.Shared.Models.csproj", "{4176DFD3-C547-45DF-9192-7763F822E773}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +97,14 @@ Global
 		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{13E3A0A9-3D2B-4DBA-BE1B-99DE0A9C7FB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E3A0A9-3D2B-4DBA-BE1B-99DE0A9C7FB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E3A0A9-3D2B-4DBA-BE1B-99DE0A9C7FB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E3A0A9-3D2B-4DBA-BE1B-99DE0A9C7FB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4176DFD3-C547-45DF-9192-7763F822E773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4176DFD3-C547-45DF-9192-7763F822E773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4176DFD3-C547-45DF-9192-7763F822E773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4176DFD3-C547-45DF-9192-7763F822E773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +123,8 @@ Global
 		{7451B1A7-16C0-1BB2-6DCC-80D9B3D53BC3} = {3E0EEFC8-169D-4294-81F2-05CC9BCB446E}
 		{BF4E699E-16D7-2FF3-0561-83F505D875C2} = {3E0EEFC8-169D-4294-81F2-05CC9BCB446E}
 		{E2A4C6F6-4168-5AF4-21C8-476EB3B0BB07} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{13E3A0A9-3D2B-4DBA-BE1B-99DE0A9C7FB6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4176DFD3-C547-45DF-9192-7763F822E773} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DB131D7-7F42-483C-B014-DDA4B3B34DE9}

@@ -46,7 +46,12 @@ namespace SimpleStocker.SaleApi.Repositories
             return modelsList;
         }
 
-        public async Task<SaleItemModel> UpdateAsync(long id, SaleItemModel model)
+        public Task<List<SaleItemModel>> MultipleUpdateAsync(List<SaleItemModel> models)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SaleItemModel> UpdateAsync(SaleItemModel model)
         {
             _context.SaleItems.Update(model);
             await _context.SaveChangesAsync();

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleStocker.Caching.Services;
 using SimpleStocker.ClientApi.Context;
 using SimpleStocker.ClientApi.MapsterConfig;
 using SimpleStocker.ClientApi.Middlewares;
@@ -16,6 +17,14 @@ builder.Services.RegisterMapster();
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
+
+builder.Services.AddScoped<ICachingService, CachingService>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.InstanceName = "SimpleStocker.ClientApi";
+    options.Configuration = builder.Configuration.GetValue<string>("RedisCache:Host");
+});
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();

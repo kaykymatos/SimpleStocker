@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SimpleStocker.ProductApi.Caching.Services;
+using SimpleStocker.Caching.Services;
 using SimpleStocker.ProductApi.Context;
 using SimpleStocker.ProductApi.Endpoints;
 using SimpleStocker.ProductApi.MapsterConfig;

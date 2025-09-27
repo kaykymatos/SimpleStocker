@@ -42,7 +42,7 @@ namespace SimpleStocker.ClientApi.Repositories
             try
             {
                 var modelsList = await _context.Clients.ToListAsync();
-                return modelsList;
+                return modelsList ?? [];
             }
             catch (Exception e)
             {
@@ -56,7 +56,7 @@ namespace SimpleStocker.ClientApi.Repositories
             return modelsList;
         }
 
-        public async Task<ClientModel> UpdateAsync(long id, ClientModel model)
+        public async Task<ClientModel> UpdateAsync(ClientModel model)
         {
             _context.Clients.Update(model);
             await _context.SaveChangesAsync();
