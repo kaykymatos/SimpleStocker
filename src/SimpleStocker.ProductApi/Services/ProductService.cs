@@ -1,18 +1,27 @@
 ﻿using Mapster;
+using SimpleStocker.ProductApi.Caching;
+using SimpleStocker.ProductApi.Caching.Services;
 using SimpleStocker.ProductApi.DTO;
+using SimpleStocker.ProductApi.Factories;
 using SimpleStocker.ProductApi.Models;
 using SimpleStocker.ProductApi.Repositories;
 using SimpleStocker.ProductApi.Util;
 using SimpleStocker.ProductApi.Validations;
+using System.Reflection.Metadata.Ecma335;
+using System.Text.Json;
 
 namespace SimpleStocker.ProductApi.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _repository;
-        public ProductService(IProductRepository repository)
+        private readonly ICachingService _cache;
+        private readonly IConfiguration _config;
+        public ProductService(IProductRepository repository, ICachingService cache, IConfiguration config)
         {
             _repository = repository;
+            _cache = cache;
+            _config = config;
         }
 
         public async Task<ApiResponse<ProductDTO>> CreateAsync(ProductDTO model)
@@ -47,7 +56,10 @@ namespace SimpleStocker.ProductApi.Services
 
                 var deleteItem = await _repository.DeleteAsync(id);
                 if (deleteItem)
+                {
+                    await _cache.RemoveAsync(string.Format(CacheKeys.GetOneProduct, id));
                     return new ApiResponse<bool>(true, "", [], true, 200);
+                }
                 return new ApiResponse<bool>("Server", "Erro ao deletar item");
 
             }
@@ -63,7 +75,10 @@ namespace SimpleStocker.ProductApi.Services
             {
                 var result = await _repository.DeleteManyAsync(ids);
                 if (result)
+                {
+                    await _cache.RemoveListAsync(ids.Select(id => string.Format(CacheKeys.GetOneCategory, id)).ToList());
                     return new ApiResponse<bool>(true, "", [], true, 200);
+                }
                 return new ApiResponse<bool>("Server", "Erro ao deletar itens");
             }
             catch (Exception ex)
@@ -74,32 +89,69 @@ namespace SimpleStocker.ProductApi.Services
 
         public async Task<ApiResponse<IList<ProductDTO>>> GetAllAsync()
         {
+            var cachedProduct = await _cache.GetAsync(CacheKeys.GetAllProducts);
+            if (!string.IsNullOrEmpty(cachedProduct))
+            {
+                var cachedResponse = new ApiResponse<IList<ProductDTO>>(JsonSerializer.Deserialize<List<ProductDTO>>(cachedProduct));
+                return cachedResponse;
+            }
+
             try
             {
-                var foundEntity = await _repository.GetAllAsync();
+                var dbReturn = await _repository.GetAllAsync();
+                var response = new ApiResponse<IList<ProductDTO>>(dbReturn.Adapt<IList<ProductDTO>>());
 
-                return new ApiResponse<IList<ProductDTO>>(true, "", [], foundEntity.Adapt<List<ProductDTO>>(), 200);
+                var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(_config["ExternalServicesUrls:InventorySerivce"]) });
+                ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
 
+                inventoryData = await httpClientFactoryService.PostAsync<List<InventoryDTO>>(
+                    "/inventory/get-inventory-by-product-id-list",
+                    response.Data.Select(x => x.Id).ToList()
+                );
+                foreach (var item in response.Data)
+                    item.QuantityStock = inventoryData.Data.First(x => x.ProductId == item.Id).Quantity;
+
+                await _cache.SetAsync(CacheKeys.GetAllProducts, JsonSerializer.Serialize(response.Data));
+
+                return response;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(e.Message);
             }
         }
 
         public async Task<ApiResponse<ProductDTO>> GetOneAsync(long id)
         {
+            var cachedProduct = await _cache.GetAsync(string.Format(CacheKeys.GetOneProduct, id));
+            if (!string.IsNullOrEmpty(cachedProduct))
+            {
+                var cachedResponse = new ApiResponse<ProductDTO>(JsonSerializer.Deserialize<ProductDTO>(cachedProduct));
+                return cachedResponse;
+            }
+
             try
             {
-                var entity = await _repository.GetOneAsync(id);
-                if (entity == null)
-                    return new ApiResponse<ProductDTO>("Id", "Id não encontrado!");
+                var response = new ApiResponse<ProductDTO>();
+                response.Data = new ProductDTO();
 
-                return new ApiResponse<ProductDTO>(true, "", [], entity.Adapt<ProductDTO>(), 200);
+                var dbReturn = await _repository.GetOneAsync(id);
+                dbReturn.Adapt(response.Data);
+
+                var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(_config["ExternalServicesUrls:InventorySerivce"]) });
+                ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
+                inventoryData = await httpClientFactoryService.PostAsync<List<InventoryDTO>>(
+                    "/inventory/get-inventory-by-product-id-list",
+                    new List<long> { id }
+                );
+                response.Data.QuantityStock = inventoryData.Data.First().Quantity;
+
+                await _cache.SetAsync(string.Format(CacheKeys.GetOneProduct, id), JsonSerializer.Serialize(response.Data));
+                return response;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(e.Message);
             }
         }
 
@@ -116,17 +168,33 @@ namespace SimpleStocker.ProductApi.Services
 
             try
             {
+                var products = JsonSerializer.Deserialize<List<ProductDTO>>(await _cache.GetAsync(CacheKeys.GetAllProducts));
                 model.Adapt(originalmodel);
-                var res = await _repository.UpdateAsync(originalmodel);
-                if (res == null)
-                    return new ApiResponse<ProductDTO>("Server", "Erro ao tentar criar registro!");
-                return new ApiResponse<ProductDTO>(true, "", [], res.Adapt<ProductDTO>(), 200);
+
+                var productUpdate = products.FirstOrDefault(x => x.Id == id);
+                model.Adapt(productUpdate);
+                productUpdate.UpdatedDate = DateTime.UtcNow;
+
+                var updateRepoTask = _repository.UpdateAsync(originalmodel);
+                var updateCacheTask = _cache.SetAsync(
+                    CacheKeys.GetAllProducts,
+                    JsonSerializer.Serialize(products.Adapt<List<ProductDTO>>())
+                );
+                var updateProductCacheTask = _cache.SetAsync(
+                    string.Format(CacheKeys.GetOneProduct, id),
+                    JsonSerializer.Serialize(productUpdate)
+                );
+
+                await Task.WhenAll(updateRepoTask, updateCacheTask, updateProductCacheTask);
+
+                var updatedEntity = await updateRepoTask;
+
+                return new ApiResponse<ProductDTO>(true, "", [], updatedEntity.Adapt<ProductDTO>(), 200);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
     }
 }

@@ -1,11 +1,14 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using SimpleStocker.ProductApi.Caching;
+using SimpleStocker.ProductApi.Caching.Services;
 using SimpleStocker.ProductApi.DTO;
 using SimpleStocker.ProductApi.Factories;
 using SimpleStocker.ProductApi.RabbitMQ.RabbitMQModels;
 using SimpleStocker.ProductApi.RabbitMQ.RabbitMQSender;
 using SimpleStocker.ProductApi.Services;
+using System.Text.Json;
 
 namespace SimpleStocker.ProductApi.Endpoints
 {
@@ -43,24 +46,11 @@ namespace SimpleStocker.ProductApi.Endpoints
                 return x;
             });
 
-            app.MapGet("products/{id:long}", async ([FromRoute] long id, [FromServices] IProductService service, IConfiguration config) =>
+            app.MapGet("products/{id:long}", async (
+                [FromRoute] long id,
+                [FromServices] IProductService service) =>
             {
                 var response = await service.GetOneAsync(id);
-
-                var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(config["ExternalServicesUrls:InventorySerivce"]) });
-                ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
-                try
-                {
-                    inventoryData = await httpClientFactoryService.PostAsync<List<InventoryDTO>>(
-                        "/inventory/get-inventory-by-product-id-list",
-                        new List<long> { id }
-                    );
-                    response.Data.QuantityStock = inventoryData.Data.First().Quantity;
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(e.Message);
-                }
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             }).WithOpenApi(x =>
             {
@@ -81,27 +71,9 @@ namespace SimpleStocker.ProductApi.Endpoints
             });
 
             app.MapGet("products", async (
-                [FromServices] IProductService service,
-                [FromServices] IConfiguration config) =>
+                [FromServices] IProductService service) =>
             {
                 var response = await service.GetAllAsync();
-
-                var httpClientFactoryService = new HttpClientFactory(new HttpClient() { BaseAddress = new Uri(config["ExternalServicesUrls:InventorySerivce"]) });
-                ApiResponse<List<InventoryDTO>> inventoryData = new ApiResponse<List<InventoryDTO>>();
-                try
-                {
-                    inventoryData = await httpClientFactoryService.PostAsync<List<InventoryDTO>>(
-                        "/inventory/get-inventory-by-product-id-list",
-                        response.Data.Select(x => x.Id).ToList()
-                    );
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(e.Message);
-                }
-
-                foreach (var item in response.Data)
-                    item.QuantityStock = inventoryData.Data.First(x => x.ProductId == item.Id).Quantity;
 
                 return response.Success ? Results.Ok(response) : Results.BadRequest(response);
             })

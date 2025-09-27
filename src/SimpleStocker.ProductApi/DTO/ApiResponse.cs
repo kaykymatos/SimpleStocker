@@ -22,6 +22,15 @@
             StatusCode = statusCode;
         }
 
+        public ApiResponse(T data)
+        {
+            Success = true;
+            Message = string.Empty;
+            Errors = [];
+            Data = data;
+            StatusCode = 200;
+        }
+
         public ApiResponse(List<Dictionary<string, string>> errors)
         {
             Success = false;
