@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SimpleStocker.Caching\SimpleStocker.Caching.csproj" />
     <ProjectReference Include="..\SimpleStocker.Shared.Models\SimpleStocker.Shared.Models.csproj" />
   </ItemGroup>
 

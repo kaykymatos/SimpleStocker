@@ -148,12 +148,12 @@ namespace SimpleStocker.ClientApi.Services
                     CacheKeys.GetAllClients,
                     JsonSerializer.Serialize(clients.Adapt<List<ClientDTO>>())
                 );
-                var updateProductCacheTask = _cache.SetAsync(
+                var updateClientCacheTask = _cache.SetAsync(
                     string.Format(CacheKeys.GetOneClient, id),
                     JsonSerializer.Serialize(clientUpdate)
                 );
 
-                await Task.WhenAll(updateRepoTask, updateCacheTask, updateProductCacheTask);
+                await Task.WhenAll(updateRepoTask, updateCacheTask, updateClientCacheTask);
 
                 var updatedEntity = await updateRepoTask;
 

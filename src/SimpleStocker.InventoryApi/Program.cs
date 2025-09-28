@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleStocker.Caching.Services;
 using SimpleStocker.InventoryApi.Context;
 using SimpleStocker.InventoryApi.Endpoints;
 using SimpleStocker.InventoryApi.MapsterConfig;
@@ -17,6 +18,13 @@ builder.Services.RegisterMapster();
 
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<ICachingService, CachingService>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.InstanceName = "SimpleStocker.InventoryApi";
+    options.Configuration = builder.Configuration.GetValue<string>("RedisCache:Host");
+});
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
